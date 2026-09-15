@@ -148,6 +148,19 @@
     .sb-app-content [style*="padding"][style*="28px"],.sb-app-content [style*="padding"][style*="30px"]{padding:18px!important;}
     [style*="1fr 1fr"][style*="margin-top"][style*="18px"]{grid-template-columns:minmax(0,1fr)!important;}
   }
+
+  .sb-guided-card{background:#fff;border:1px solid #efe1d2;border-radius:18px;padding:22px;box-shadow:0 8px 24px rgba(28,23,20,.045);}
+  .sb-choice-card{cursor:pointer;background:#fff;border-radius:16px;padding:18px;transition:transform .15s ease,box-shadow .15s ease;}
+  .sb-choice-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(154,60,16,.08);}
+  .sb-guided-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:30px;}
+  @media (max-width:768px){
+    .sb-guided-shell{padding:18px 16px 42px!important;}
+    .sb-guided-head{align-items:flex-start!important;flex-wrap:wrap;}
+    .sb-guided-content{padding:24px 18px!important;}
+    .sb-guided-content h1{font-size:34px!important;}
+    .sb-guided-two,.sb-guided-three{grid-template-columns:minmax(0,1fr)!important;}
+    .sb-guided-actions{position:sticky;bottom:0;background:rgba(253,245,238,.94);padding:12px 0;backdrop-filter:blur(8px);}
+  }
 </style>
 </helmet>
 
@@ -393,17 +406,17 @@
           <div style="flex:1;"><label style="font-size:12.5px;font-weight:800;letter-spacing:.4px;color:#6b6058;">MOBILE</label><input value="{{ acctMobile }}" onInput="{{ onAcctMobile }}" placeholder="+91 98765 43210" style="width:100%;margin-top:7px;border:1px solid #e6d5c4;border-radius:12px;padding:13px 15px;font-size:15px;outline:none;color:#1c1714;" /></div>
         </div>
         <div>
-          <label style="font-size:12.5px;font-weight:800;letter-spacing:.4px;color:#6b6058;">CITY / LOCATION</label>
-          <input value="{{ acctCity }}" onInput="{{ onAcctCity }}" list="sb-cities" style="width:100%;margin-top:7px;border:1px solid #e6d5c4;border-radius:12px;padding:13px 15px;font-size:15px;outline:none;color:#1c1714;" />
-          <datalist id="sb-cities"><sc-for list="{{ cities }}" as="c" hint-placeholder-count="6"><option value="{{ c }}"></option></sc-for></datalist>
+          <label style="font-size:12.5px;font-weight:800;letter-spacing:.4px;color:#6b6058;">BUSINESS NAME</label>
+          <input value="{{ acctBusiness }}" onInput="{{ onAcctBusiness }}" placeholder="e.g. Elaena Fragrances" style="width:100%;margin-top:7px;border:1px solid #e6d5c4;border-radius:12px;padding:13px 15px;font-size:15px;outline:none;color:#1c1714;" />
         </div>
         <div>
-          <label style="font-size:12.5px;font-weight:800;letter-spacing:.4px;color:#6b6058;">PASSWORD</label>
-          <input value="{{ acctPassword }}" onInput="{{ onAcctPassword }}" type="password" placeholder="At least 6 characters" style="width:100%;margin-top:7px;border:1px solid #e6d5c4;border-radius:12px;padding:13px 15px;font-size:15px;outline:none;color:#1c1714;" />
+          <label style="font-size:12.5px;font-weight:800;letter-spacing:.4px;color:#6b6058;">MOBILE OTP</label>
+          <input value="{{ acctOtp }}" onInput="{{ onAcctOtp }}" inputmode="numeric" maxlength="6" placeholder="6-digit code" style="width:100%;margin-top:7px;border:1px solid #e6d5c4;border-radius:12px;padding:13px 15px;font-size:15px;outline:none;color:#1c1714;" />
+          <div style="font-size:12px;color:#9b8e80;margin-top:6px;">We use this verified number for your personal demonstration call.</div>
         </div>
         <div onClick="{{ toggleAgree }}" style="cursor:pointer;display:flex;gap:10px;align-items:flex-start;margin-top:2px;">
           <span style="width:20px;height:20px;border-radius:6px;border:2px solid {{ agreeBorder }};background:{{ agreeBox }};display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="m5 12 5 5L20 6"/></svg></span>
-          <span style="font-size:13px;color:#6b6058;line-height:1.5;">I agree to the <b style="color:#9a3c10;">Terms</b> &amp; <b style="color:#9a3c10;">Privacy Policy</b>, and consent to WhatsApp Business messaging (DPDP-Act compliant).</span>
+          <span style="font-size:13px;color:#6b6058;line-height:1.5;">I agree to the <b style="color:#9a3c10;">Terms</b> &amp; <b style="color:#9a3c10;">Privacy Policy</b>. WhatsApp can be connected separately after the voice agent is live.</span>
         </div>
         <button onClick="{{ submitSignup }}" style="cursor:pointer;border:none;background:#9a3c10;color:#fff;font-weight:700;font-size:16px;padding:16px;border-radius:12px;margin-top:6px;box-shadow:0 10px 26px rgba(154,60,16,.26);display:flex;align-items:center;justify-content:center;gap:10px;">Create account &amp; start setup <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
         <div style="text-align:center;font-size:13px;color:#9b8e80;">Already have an account? <b onClick="{{ goApp }}" style="color:#9a3c10;cursor:pointer;">Log in</b></div>
@@ -415,6 +428,76 @@
 
 <!-- ============ ONBOARDING ============ -->
 <sc-if value="{{ isOnboarding }}" hint-placeholder-val="{{ false }}">
+<div class="sb-guided-shell" style="min-height:100vh;background:radial-gradient(120% 70% at 50% -5%,#fce7d4 0%,#fdf3e9 50%,#fdf5ee 100%);padding:26px 32px 60px;">
+  <div style="max-width:1040px;margin:0 auto;">
+    <div class="sb-guided-head" style="display:flex;align-items:center;gap:18px;margin-bottom:22px;">
+      <div style="display:flex;align-items:center;gap:10px;flex:none;"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ed7a2c,#9a3c10);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Playfair Display',serif;font-size:20px;font-weight:800;">S</div><div><div style="font-family:'Playfair Display',serif;font-weight:800;color:#9a3c10;">SalesBuddy</div><div style="font-size:10px;letter-spacing:1.2px;color:#9b8e80;font-weight:800;">BUILDING YOUR AGENT</div></div></div>
+      <div style="flex:1;min-width:180px;"><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:#6b6058;margin-bottom:7px;"><span>Moment {{ onboardingMoment }} of 7</span><span>{{ onboardingTime }}</span></div><div style="height:9px;background:#f0e1d0;border-radius:999px;overflow:hidden;"><div style="width:{{ onboardingProgress }};height:100%;background:linear-gradient(90deg,#ed7a2c,#9a3c10);border-radius:999px;transition:width .3s;"></div></div></div>
+      <div style="background:#fff;border:1px solid #efe1d2;border-radius:999px;padding:8px 13px;font-size:12px;font-weight:800;color:#0a8f5b;white-space:nowrap;">● Voice number preparing</div>
+    </div>
+
+    <div class="sb-guided-content" style="background:rgba(255,255,255,.7);border:1px solid #efe1d2;border-radius:24px;padding:36px;box-shadow:0 18px 50px rgba(154,60,16,.08);">
+      <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+        <div style="font-size:12px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:10px;">BUSINESS DISCOVERY</div>
+        <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:46px;line-height:1.08;margin:0 0 12px;">Show us what <span style="font-style:italic;color:#9a3c10;">{{ onboardingBusiness }}</span> sells</h1>
+        <p style="font-size:16px;color:#6b6058;line-height:1.6;margin:0 0 26px;max-width:700px;">Give SalesBuddy one useful source. It will read it and draft your products, prices, FAQs, locations, languages and selling points.</p>
+        <div class="sb-guided-two" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;">
+          <sc-for list="{{ sourceOptions }}" as="o" hint-placeholder-count="4"><div class="sb-choice-card" onClick="{{ o.select }}" style="border:{{ o.border }};"><div style="font-size:25px;margin-bottom:8px;">{{ o.icon }}</div><div style="font-weight:800;font-size:15px;">{{ o.title }}</div><div style="font-size:13px;color:#9b8e80;margin-top:4px;line-height:1.45;">{{ o.desc }}</div></div></sc-for>
+        </div>
+        <div class="sb-guided-card" style="margin-top:16px;"><label style="font-size:12px;font-weight:800;letter-spacing:.5px;color:#6b6058;">{{ sourceLabel }}</label><textarea onInput="{{ onSourceInput }}" rows="3" placeholder="{{ sourcePlaceholder }}" style="width:100%;margin-top:9px;border:1px solid #e6d5c4;border-radius:12px;padding:14px 16px;font-size:15px;outline:none;resize:vertical;color:#1c1714;">{{ sourceInput }}</textarea><div style="display:flex;gap:8px;align-items:center;margin-top:12px;color:#0a8f5b;font-size:13px;font-weight:700;"><span style="width:8px;height:8px;border-radius:50%;background:#0a8f5b;"></span>Ready to analyse — no long catalogue form required</div></div>
+      </sc-if>
+
+      <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:12px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:10px;">BUSINESS SNAPSHOT</div>
+        <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:46px;line-height:1.08;margin:0 0 12px;">Here is what your agent <span style="font-style:italic;color:#9a3c10;">understood</span></h1>
+        <p style="font-size:16px;color:#6b6058;margin:0 0 24px;">Confirm the important parts only. Unknown information stays clearly marked and will never be invented.</p>
+        <div class="sb-guided-two" style="display:grid;grid-template-columns:1.15fr .85fr;gap:16px;">
+          <div class="sb-guided-card"><div style="display:flex;justify-content:space-between;gap:12px;"><div><div style="font-size:12px;color:#9b8e80;font-weight:800;">BUSINESS TYPE</div><div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:800;margin-top:4px;">Product Seller</div></div><button style="border:none;background:#fbeada;color:#9a3c10;font-weight:800;border-radius:999px;padding:8px 13px;height:fit-content;">Change</button></div><div style="border-top:1px solid #f2e7da;margin:18px 0;"></div><div style="font-size:12px;color:#9b8e80;font-weight:800;margin-bottom:10px;">DISCOVERED OFFER</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><span style="background:#f4ece2;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;">Premium products</span><span style="background:#f4ece2;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;">India-wide enquiries</span><span style="background:#f4ece2;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;">Hindi + English</span></div></div>
+          <div class="sb-guided-card"><div style="font-size:12px;color:#9b8e80;font-weight:800;margin-bottom:10px;">KNOWLEDGE STATUS</div><div style="display:flex;flex-direction:column;gap:11px;font-size:13.5px;"><div style="display:flex;gap:9px;"><b style="color:#0a8f5b;">✓</b><span>Business and products ready</span></div><div style="display:flex;gap:9px;"><b style="color:#0a8f5b;">✓</b><span>Common questions drafted</span></div><div style="display:flex;gap:9px;"><b style="color:#b4541b;">!</b><span>Some prices need approval</span></div></div></div>
+        </div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:23px;margin:25px 0 12px;">Choose a safe starting level</h3>
+        <div class="sb-guided-two" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;"><div class="sb-choice-card" onClick="{{ chooseLeadCapture }}" style="border:{{ leadCaptureBorder }};"><div style="font-weight:800;font-size:16px;">Lead Capture Live <span style="font-size:10px;background:#dff3e9;color:#0a8f5b;border-radius:999px;padding:4px 8px;">RECOMMENDED</span></div><p style="font-size:13px;color:#6b6058;line-height:1.5;margin:7px 0 0;">Answer enquiries, collect requirement, budget and callback preference. Never quote an unknown price.</p></div><div class="sb-choice-card" onClick="{{ chooseSalesReady }}" style="border:{{ salesReadyBorder }};"><div style="font-weight:800;font-size:16px;">Sales Ready Live</div><p style="font-size:13px;color:#6b6058;line-height:1.5;margin:7px 0 0;">Quote approved prices, negotiate within your rules and send payment links.</p></div></div>
+      </sc-if>
+
+      <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:12px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:10px;">VOICE &amp; PERSONALITY</div>
+        <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:46px;line-height:1.08;margin:0 0 12px;">How should your SalesBuddy <span style="font-style:italic;color:#9a3c10;">sound?</span></h1>
+        <p style="font-size:16px;color:#6b6058;margin:0 0 22px;">These previews use your business context. Four recommendations appear first; Explore All Voices opens the full library.</p>
+        <div class="sb-guided-two" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;"><sc-for list="{{ onboardingVoices }}" as="v" hint-placeholder-count="6"><div class="sb-choice-card" onClick="{{ v.select }}" style="border:{{ v.border }};display:flex;align-items:center;gap:13px;"><div style="width:46px;height:46px;border-radius:50%;background:{{ v.avatarBg }};display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Playfair Display',serif;font-weight:800;flex:none;">{{ v.initial }}</div><div style="flex:1;"><div style="font-weight:800;">{{ v.name }} <span style="font-size:10px;color:#b4541b;">{{ v.tag }}</span></div><div style="font-size:12px;color:#9b8e80;margin-top:3px;">{{ v.style }}</div><div style="font-size:12px;color:#6b6058;margin-top:5px;line-height:1.4;">“{{ v.sample }}”</div></div><span style="width:31px;height:31px;border-radius:50%;background:#f6dcc2;display:flex;align-items:center;justify-content:center;color:#9a3c10;">▶</span></div></sc-for></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin:15px 0 22px;flex-wrap:wrap;"><button style="border:1px solid #e1cdb8;background:#fff;color:#9a3c10;font-weight:800;padding:10px 16px;border-radius:999px;">Explore all voices</button><span style="font-size:12.5px;color:#9b8e80;">Voice cloning is available later in Setup and never blocks launch.</span></div>
+        <div class="sb-guided-card"><div style="font-weight:800;margin-bottom:11px;">Speaking style</div><div style="display:flex;gap:9px;flex-wrap:wrap;"><sc-for list="{{ speakingStyles }}" as="s" hint-placeholder-count="4"><span onClick="{{ s.select }}" style="cursor:pointer;border:{{ s.border }};background:{{ s.bg }};color:{{ s.color }};border-radius:999px;padding:9px 14px;font-size:13px;font-weight:800;">{{ s.label }}</span></sc-for></div></div>
+      </sc-if>
+
+      <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:12px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:10px;">SELLING BOUNDARIES</div>
+        <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:46px;line-height:1.08;margin:0 0 12px;">What can your agent do <span style="font-style:italic;color:#9a3c10;">on its own?</span></h1>
+        <p style="font-size:16px;color:#6b6058;margin:0 0 22px;">Choose plain-language limits. SalesBuddy applies safe defaults and explains the outcome.</p>
+        <div style="display:flex;flex-direction:column;gap:14px;"><sc-for list="{{ boundaryGroups }}" as="g" hint-placeholder-count="3"><div class="sb-guided-card"><div style="font-weight:800;font-size:16px;margin-bottom:11px;">{{ g.question }}</div><div style="display:flex;gap:9px;flex-wrap:wrap;"><sc-for list="{{ g.options }}" as="o" hint-placeholder-count="3"><span onClick="{{ o.select }}" style="cursor:pointer;border:{{ o.border }};background:{{ o.bg }};color:{{ o.color }};border-radius:999px;padding:9px 13px;font-size:12.5px;font-weight:800;">{{ o.label }}</span></sc-for></div></div></sc-for></div>
+        <div style="margin-top:16px;background:#fbeada;border:1px solid #f3ddc6;border-radius:16px;padding:17px 19px;color:#3a322c;font-size:14px;line-height:1.55;"><b style="color:#9a3c10;">Your live rule:</b> Your agent will answer questions, quote only approved prices, never discount without permission and alert you for difficult or high-value enquiries.</div>
+      </sc-if>
+
+      <sc-if value="{{ isStep5 }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:12px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:10px;">NUMBER &amp; LIVE DEMO</div>
+        <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:46px;line-height:1.08;margin:0 0 12px;">Your SalesBuddy is <span style="font-style:italic;color:#9a3c10;">ready</span></h1>
+        <div class="sb-guided-two" style="display:grid;grid-template-columns:.8fr 1.2fr;gap:16px;">
+          <div class="sb-guided-card" style="background:linear-gradient(160deg,#fff7f0,#fbeada);border-color:#f3ddc6;"><div style="font-size:12px;color:#9b8e80;font-weight:800;">YOUR DEDICATED AI NUMBER</div><div style="font-family:'JetBrains Mono',monospace;font-size:23px;font-weight:800;color:#9a3c10;margin:8px 0 18px;">+91 81300 04500</div><div style="display:flex;flex-direction:column;gap:9px;font-size:13px;"><span><b style="color:#0a8f5b;">●</b> Voice agent ready</span><span><b style="color:#0a8f5b;">●</b> Business knowledge ready</span><span><b style="color:#b4541b;">○</b> WhatsApp — connect later</span><span><b style="color:#b4541b;">○</b> Existing-number forwarding — optional</span></div><button style="width:100%;border:1px solid #e1cdb8;background:#fff;color:#9a3c10;font-weight:800;padding:11px;border-radius:12px;margin-top:18px;">Copy or share number</button></div>
+          <div class="sb-guided-card"><h3 style="font-family:'Playfair Display',serif;font-size:25px;margin:0 0 7px;">Let your SalesBuddy call you now</h3><p style="font-size:13.5px;color:#6b6058;line-height:1.5;margin:0 0 17px;">We will call your verified mobile with the selected voice, business name and real product context.</p><button onClick="{{ runDemoCall }}" style="border:none;background:#9a3c10;color:#fff;font-weight:800;padding:13px 20px;border-radius:999px;box-shadow:0 8px 22px rgba(154,60,16,.22);">{{ demoCallLabel }}</button><sc-if value="{{ demoCalled }}" hint-placeholder-val="{{ false }}"><div style="margin-top:17px;border-top:1px solid #f2e7da;padding-top:15px;"><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:#0a8f5b;margin-bottom:9px;"><span>● LIVE TRANSCRIPT</span><span>00:18</span></div><div style="background:#f4ece2;border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.5;">“Hello, thank you for calling {{ onboardingBusiness }}. I can help you choose the right product and confirm the approved price.”</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;"><span style="background:#0a8f5b;color:#fff;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800;">Sounds right</span><span style="background:#fff;border:1px solid #e1cdb8;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800;">Try another voice</span><span style="background:#fff;border:1px solid #e1cdb8;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800;">Edit what it knows</span></div></div></sc-if></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:15px;"><span style="background:#fff;border:1px solid #efe1d2;border-radius:999px;padding:9px 13px;font-size:12.5px;font-weight:700;">Start with this new AI number</span><span style="background:#fff;border:1px solid #efe1d2;border-radius:999px;padding:9px 13px;font-size:12.5px;font-weight:700;">Forward calls later</span><span style="background:#fff;border:1px solid #efe1d2;border-radius:999px;padding:9px 13px;font-size:12.5px;font-weight:700;">Connect WhatsApp separately</span></div>
+      </sc-if>
+
+      <sc-if value="{{ isStep6 }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;max-width:720px;margin:0 auto;"><div style="width:74px;height:74px;border-radius:24px;background:linear-gradient(135deg,#ed7a2c,#9a3c10);display:flex;align-items:center;justify-content:center;color:#fff;font-size:34px;margin:0 auto 18px;box-shadow:0 14px 34px rgba(154,60,16,.25);">✓</div><div style="font-size:12px;font-weight:800;letter-spacing:1.5px;color:#0a8f5b;margin-bottom:9px;">VOICE AGENT LIVE</div><h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:52px;line-height:1.06;margin:0 0 14px;">Your SalesBuddy is ready to <span style="font-style:italic;color:#9a3c10;">answer customers</span></h1><p style="font-size:16px;color:#6b6058;line-height:1.6;margin:0 auto 24px;">Lead Capture Live is active on +91 81300 04500. WhatsApp, Gmail and forwarding can be added later without interrupting voice.</p><div class="sb-guided-three" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:left;margin-bottom:24px;"><div class="sb-guided-card"><div style="font-size:11px;color:#9b8e80;font-weight:800;">STATUS</div><b style="display:block;margin-top:5px;color:#0a8f5b;">Voice Live</b></div><div class="sb-guided-card"><div style="font-size:11px;color:#9b8e80;font-weight:800;">START LEVEL</div><b style="display:block;margin-top:5px;">Lead Capture</b></div><div class="sb-guided-card"><div style="font-size:11px;color:#9b8e80;font-weight:800;">NEXT BEST ACTION</div><b style="display:block;margin-top:5px;">Approve missing prices</b></div></div><button onClick="{{ goApp }}" style="border:none;background:#9a3c10;color:#fff;font-weight:800;font-size:16px;padding:15px 28px;border-radius:999px;box-shadow:0 10px 26px rgba(154,60,16,.24);">Open my live dashboard →</button></div>
+      </sc-if>
+
+      <sc-if value="{{ showGuidedActions }}" hint-placeholder-val="{{ true }}"><div class="sb-guided-actions"><button onClick="{{ obPrev }}" style="border:1px solid #e1cdb8;background:#fff;color:#6b6058;font-weight:800;padding:12px 18px;border-radius:999px;">← Back</button><button onClick="{{ obNext }}" style="border:none;background:#9a3c10;color:#fff;font-weight:800;padding:13px 24px;border-radius:999px;box-shadow:0 8px 22px rgba(154,60,16,.2);">{{ guidedNextLabel }} →</button></div></sc-if>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- Retained legacy markup is disabled while the approved guided journey is active. -->
+<sc-if value="{{ legacyOnboarding }}" hint-placeholder-val="{{ false }}">
 <div style="min-height:100vh;background:radial-gradient(120% 70% at 50% -5%, #fce7d4 0%, #fdf3e9 50%, #fdf5ee 100%);padding-bottom:60px;">
   <!-- XP / LEVEL HUD -->
   <div class="sb-onboarding-hud" style="max-width:1200px;margin:0 auto;padding:28px 32px 0;display:flex;align-items:center;gap:18px;">
@@ -655,7 +738,7 @@
       <div style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#ed7a2c,#9a3c10);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;color:#fff;font-size:20px;">S</div>
       <div><div style="font-family:'Playfair Display',serif;font-weight:800;font-size:17px;color:#9a3c10;line-height:1;">SalesBuddy</div><div style="font-size:10px;letter-spacing:1.5px;color:#b9a795;font-weight:700;margin-top:3px;">AI SALES AGENT</div></div>
     </div>
-    <button class="sb-new-campaign" style="cursor:pointer;border:none;background:#9a3c10;color:#fff;font-weight:700;font-size:14px;padding:13px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px;box-shadow:0 6px 16px rgba(154,60,16,.2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>New Campaign</button>
+    <button class="sb-new-campaign" style="cursor:pointer;border:none;background:#9a3c10;color:#fff;font-weight:700;font-size:14px;padding:13px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px;box-shadow:0 6px 16px rgba(154,60,16,.2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Test AI Call</button>
     <nav class="sb-app-nav" style="display:flex;flex-direction:column;gap:3px;">
       <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="7">
         <div onClick="{{ n.go }}" style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:11px;background:{{ n.bg }};color:{{ n.color }};font-weight:{{ n.weight }};font-size:14.5px;position:relative;">
@@ -690,6 +773,7 @@
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b9a795" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <input placeholder="Search leads, conversations, products…" style="border:none;outline:none;background:none;flex:1;font-size:14px;color:#1c1714;" />
       </div>
+      <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;"><span style="background:#dff3e9;color:#0a8f5b;border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:800;">● VOICE LIVE</span><span style="background:#f9e2cd;color:#b4541b;border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:800;">○ WHATSAPP PENDING</span><span style="background:#dff3e9;color:#0a8f5b;border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:800;">● EMAIL LIVE</span></div>
       <div style="margin-left:auto;display:flex;align-items:center;gap:18px;">
         <div onClick="{{ toggleNotif }}" style="cursor:pointer;position:relative;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6058" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><sc-if value="{{ notifUnreadAny }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;top:-5px;right:-6px;min-width:16px;height:16px;padding:0 4px;background:#c0392b;color:#fff;font-size:10px;font-weight:800;border-radius:999px;border:2px solid #fbf4ec;display:flex;align-items:center;justify-content:center;">{{ notifUnread }}</span></sc-if></div>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6058" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
@@ -2964,7 +3048,7 @@ class Component extends DCLogic {
     cycle: 'annual',
     faqOpen: 0,
     // account / signup
-    acctName: '', acctEmail: '', acctMobile: '', acctCity: 'Surat, Gujarat', acctPassword: '', acctAgree: true,
+    acctName: '', acctEmail: '', acctMobile: '', acctBusiness: '', acctOtp: '123456', acctAgree: true,
     selectedPlan: 'Growth',
     // payment gateway
     paymentOpen: false, payCtx: null, payMethod: 'upi', payState: 'idle', upiId: '', planActivated: false,
@@ -2989,7 +3073,8 @@ class Component extends DCLogic {
       { name:'Silk Dupatta Set', price:'2,200', floor:'1,870', bulk:'10% off 15+', stock:'Out of stock', stockColor:'#c0392b', stockBg:'#fbe3e0' }
     ],
     npName: '', npPrice: '',
-    numberOption: 'new',
+    numberOption: 'new', sourceType: 'website', sourceInput: '', safeMode: 'lead', speakingStyle: 'warm',
+    quoteMode: 'approved', discountMode: 'approval', alertMode: 'difficult', demoCalled: false,
     floor: 85, escalation: 14, aiMode: 'warmup',
     persona: 'arjun',
     voiceSpeed: 1, voiceHumanize: true,
@@ -3116,8 +3201,8 @@ class Component extends DCLogic {
   choosePlan = (name) => { this.setState({ selectedPlan: name, screen: 'signup' }); window.scrollTo(0,0); };
   onAcct = (k) => (e) => this.setField(k, e.target.value);
   toggleAgree = () => this.setField('acctAgree', !this.state.acctAgree);
-  signupValid = () => this.state.acctName.trim() && /.+@.+\..+/.test(this.state.acctEmail) && this.state.acctMobile.replace(/\D/g,'').length >= 10 && this.state.acctPassword.length >= 6 && this.state.acctAgree;
-  submitSignup = () => { if (!this.signupValid()) { this.setState({ toast: 'Please complete all fields to create your account' }); setTimeout(()=>this.setState({toast:null}),2400); return; } this.setState({ screen: 'onboarding', step: 1 }); window.scrollTo(0,0); };
+  signupValid = () => this.state.acctName.trim() && /.+@.+\..+/.test(this.state.acctEmail) && this.state.acctMobile.replace(/\D/g,'').length >= 10 && this.state.acctBusiness.trim() && this.state.acctOtp.replace(/\D/g,'').length === 6 && this.state.acctAgree;
+  submitSignup = () => { if (!this.signupValid()) { this.setState({ toast: 'Please complete the four account details and verify your mobile' }); setTimeout(()=>this.setState({toast:null}),2400); return; } this.setState({ screen: 'onboarding', step: 1, bizName: this.state.acctBusiness }); window.scrollTo(0,0); };
   backToLanding = () => { this.setState({ screen: 'landing' }); window.scrollTo(0,0); };
   goApp = () => { this.setState({ screen: 'app', tab: 'overview' }); window.scrollTo(0,0); };
   // payment gateway
@@ -3141,7 +3226,7 @@ class Component extends DCLogic {
     }, 1600);
   };
   activatePlan = () => { const n = this.state.selectedPlan; this.openPayment({ type: 'plan', name: n, amount: this.PLAN_PRICE[n], label: n + ' plan · annual' }); };
-  next = () => { const s = Math.min(8, this.state.step + 1); this.setState({ step: s }); window.scrollTo(0,0); };
+  next = () => { const s = Math.min(6, this.state.step + 1); this.setState({ step: s }); window.scrollTo(0,0); };
   prev = () => { if (this.state.step === 1) return this.go('landing'); this.setState({ step: this.state.step - 1 }); window.scrollTo(0,0); };
   goStep = (n) => { this.setState({ step: n }); window.scrollTo(0,0); };
   setField = (k, v) => this.setState({ [k]: v });
@@ -3517,9 +3602,44 @@ class Component extends DCLogic {
     ];
     const faqs = faqList.map((f, i) => ({ ...f, open: s.faqOpen === i, sign: s.faqOpen === i ? '–' : '+', toggle: () => this.setState({ faqOpen: s.faqOpen === i ? -1 : i }) }));
 
+    const selectedPill = (active) => ({
+      border: active ? '2px solid #9a3c10' : '1px solid #e6d5c4',
+      bg: active ? '#fbeada' : '#fff', color: active ? '#9a3c10' : '#6b6058'
+    });
+    const sourceMeta = {
+      website: ['WEBSITE OR SOCIAL LINK','Paste your website or Instagram profile URL'],
+      catalogue: ['CATALOGUE, PRICE LIST OR PRODUCT IMAGES','Add a PDF, CSV or image reference for this prototype'],
+      voice: ['VOICE NOTE','Describe your business in Hindi, Hinglish, Gujarati or English'],
+      description: ['SHORT DESCRIPTION','Tell us what you sell, where you sell and what makes it special']
+    };
+    const sourceOptions = [
+      { id:'website', icon:'🔗', title:'Website or social link', desc:'Fastest way to learn your offer, location and FAQs.' },
+      { id:'catalogue', icon:'▤', title:'Catalogue or price list', desc:'PDF, CSV, price-list image or product photos.' },
+      { id:'voice', icon:'🎙', title:'Record a voice note', desc:'Speak naturally in the language you prefer.' },
+      { id:'description', icon:'✦', title:'Write a short description', desc:'One or two sentences are enough to begin safely.' }
+    ].map(o => ({ ...o, select:()=>this.setField('sourceType',o.id), border:s.sourceType===o.id?'2px solid #9a3c10':'1px solid #efe1d2' }));
+    const onboardingVoices = [
+      { id:'arjun', name:'Arjun', style:'Confident, crisp and practical · B2B', sample:'How many units are you looking for today?', initial:'A', avatarBg:'#9a3c10', tag:'RECOMMENDED' },
+      { id:'ananya', name:'Ananya', style:'Warm, polished and friendly · D2C', sample:'Are you shopping for yourself or a gift?', initial:'A', avatarBg:'#ed7a2c', tag:'RECOMMENDED' },
+      { id:'priya', name:'Priya', style:'Calm, clear and trustworthy · Premium', sample:'I can help you understand the right option.', initial:'P', avatarBg:'#7a3210', tag:'RECOMMENDED' },
+      { id:'rahul', name:'Rahul', style:'Energetic, natural and conversational', sample:'Tell me what you need and I will help quickly.', initial:'R', avatarBg:'#1d5c63', tag:'RECOMMENDED' },
+      { id:'meera', name:'Meera', style:'Warm, familiar and expressive · Hinglish', sample:'Aapko kis product ke baare mein jaana hai?', initial:'M', avatarBg:'#b4541b', tag:'' },
+      { id:'kabir', name:'Kabir', style:'Mature, patient and consultative', sample:'Let me understand your requirement first.', initial:'K', avatarBg:'#3a322c', tag:'' }
+    ].map(v => ({ ...v, select:()=>this.setField('persona',v.id), border:s.persona===v.id?'2px solid #9a3c10':'1px solid #efe1d2' }));
+    const speakingStyles = [
+      ['professional','Professional'],['warm','Warm & Friendly'],['direct','Direct & Fast'],['premium','Premium & Refined']
+    ].map(([id,label]) => ({ id,label,select:()=>this.setField('speakingStyle',id),...selectedPill(s.speakingStyle===id) }));
+    const makeOptions = (field, items) => items.map(([id,label]) => ({ id,label,select:()=>this.setField(field,id),...selectedPill(s[field]===id) }));
+    const boundaryGroups = [
+      { question:'Can the agent quote prices?', options:makeOptions('quoteMode', [['approved','Quote approved prices'],['ask','Collect enquiry and ask me first']]) },
+      { question:'Can the agent give discounts?', options:makeOptions('discountMode', [['approval','Never without approval'],['safe','Allow a small safe discount'],['later','Set this later']]) },
+      { question:'When should the agent alert you?', options:makeOptions('alertMode', [['human','When a customer asks'],['difficult','High-value or difficult enquiry'],['later','Set this later']]) }
+    ];
+
     return {
       isLanding: s.screen === 'landing',
       isOnboarding: s.screen === 'onboarding',
+      legacyOnboarding: false,
       isApp: s.screen === 'app',
       goApp: this.goApp,
       startOnboarding: this.startOnboarding,
@@ -3546,14 +3666,24 @@ class Component extends DCLogic {
       ],
       // onboarding nav
       stepNum: s.step,
-      stepSuffix: s.step === 8 ? ': SUCCESS' : '',
-      timeLeft: [0,13,12,10,8,6,4,2,0][s.step] || 1,
-      progressPct: (s.step / 8 * 100) + '%',
+      stepSuffix: s.step === 6 ? ': LIVE' : '',
+      timeLeft: [0,4,3,2,1,1,0][s.step] || 1,
+      progressPct: ((s.step + 1) / 7 * 100) + '%',
       obPrev: this.prev, obNext: this.next, goApp: this.goApp,
       isStep1: s.step===1, isStep2: s.step===2, isStep3: s.step===3, isStep4: s.step===4,
       isStep5: s.step===5, isStep6: s.step===6, isStep7: s.step===7, isStep8: s.step===8,
-      showNextBtn: s.step !== 8,
-      nextLabel: s.step===1 ? 'Continue' : s.step===7 ? 'Looks great — finish' : 'Next',
+      showNextBtn: s.step !== 6,
+      nextLabel: s.step===5 ? 'Activate safely' : 'Continue',
+      onboardingMoment: s.step + 1, onboardingProgress: ((s.step + 1) / 7 * 100) + '%',
+      onboardingTime: s.step < 5 ? '~' + ([0,4,3,2,1][s.step] || 1) + ' min left' : (s.step===5?'Final check':'Live'),
+      onboardingBusiness: s.bizName || s.acctBusiness || 'your business',
+      sourceOptions, sourceLabel:sourceMeta[s.sourceType][0], sourcePlaceholder:sourceMeta[s.sourceType][1], sourceInput:s.sourceInput,
+      onSourceInput:(e)=>this.setField('sourceInput',e.target.value),
+      chooseLeadCapture:()=>this.setField('safeMode','lead'), chooseSalesReady:()=>this.setField('safeMode','sales'),
+      leadCaptureBorder:s.safeMode==='lead'?'2px solid #9a3c10':'1px solid #efe1d2', salesReadyBorder:s.safeMode==='sales'?'2px solid #9a3c10':'1px solid #efe1d2',
+      onboardingVoices, speakingStyles, boundaryGroups,
+      runDemoCall:()=>this.setState({demoCalled:true}), demoCalled:s.demoCalled, demoCallLabel:s.demoCalled?'Call completed — replay':'Call my verified mobile now',
+      showGuidedActions:s.step!==6, guidedNextLabel:s.step===5?'Activate safely':'Continue',
       // step1 profiles
       profiles: [
         { id:'product', name:'Product Seller', desc:'You sell physical or digital goods to consumers or businesses.', flow:'qualify → quote → razorpay_link', icon: React.createElement('svg',{width:22,height:22,viewBox:'0 0 24 24',fill:'none',stroke:'#9a3c10',strokeWidth:2},React.createElement('path',{d:'M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z'}),React.createElement('path',{d:'M3 6h18'}),React.createElement('path',{d:'M16 10a4 4 0 0 1-8 0'})) },
@@ -3995,14 +4125,13 @@ class Component extends DCLogic {
     const s = this.state;
     return {
       isSignup: s.screen === 'signup',
-      acctName: s.acctName, acctEmail: s.acctEmail, acctMobile: s.acctMobile, acctCity: s.acctCity, acctPassword: s.acctPassword,
+      acctName: s.acctName, acctEmail: s.acctEmail, acctMobile: s.acctMobile, acctBusiness: s.acctBusiness, acctOtp: s.acctOtp,
       onAcctName: this.onAcct('acctName'), onAcctEmail: this.onAcct('acctEmail'), onAcctMobile: this.onAcct('acctMobile'),
-      onAcctCity: this.onAcct('acctCity'), onAcctPassword: this.onAcct('acctPassword'),
+      onAcctBusiness: this.onAcct('acctBusiness'), onAcctOtp: this.onAcct('acctOtp'),
       acctAgree: s.acctAgree, toggleAgree: this.toggleAgree,
       agreeBox: s.acctAgree ? '#9a3c10' : '#fff', agreeBorder: s.acctAgree ? '#9a3c10' : '#d9c6b2',
       submitSignup: this.submitSignup, backToLanding: this.backToLanding,
       signupPlan: s.selectedPlan,
-      cities: ['Surat, Gujarat','Mumbai, Maharashtra','Delhi NCR','Bengaluru, Karnataka','Jaipur, Rajasthan','Kolkata, West Bengal'],
       signupPerks: ['Sells on WhatsApp, voice & email — 24/7', 'Negotiates in Hindi, Hinglish & 9 more languages', 'No code, no agency — live in minutes']
     };
   }
@@ -4695,8 +4824,9 @@ class Component extends DCLogic {
       { id:'settings', label:'Setup', d:['M12 2 4 6v6c0 5 8 10 8 10s8-5 8-10V6z'] },
       { id:'workspace', label:'Settings', d:['M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'], ex:[{t:'circle',p:{cx:12,cy:12,r:3}}] }
     ];
-    const navItems = nav.map(n => ({
-      label: n.label, badge: n.badge,
+    const primaryOrder = ['overview','conversations','leads','analytics','automation','settings'];
+    const navItems = nav.filter(n => primaryOrder.includes(n.id)).sort((a,b)=>primaryOrder.indexOf(a.id)-primaryOrder.indexOf(b.id)).map(n => ({
+      label: n.id==='overview' ? 'Home' : n.label, badge: n.badge,
       go: () => this.setTab(n.id),
       bg: s.tab===n.id ? '#fbeada' : 'transparent',
       color: s.tab===n.id ? '#9a3c10' : '#5b524a',
@@ -4705,10 +4835,10 @@ class Component extends DCLogic {
     }));
 
     const stats = [
+      { label:'AI Power Score', value:'82', delta:'3 actions', deltaColor:'#b4541b', deltaBg:'#f9e2cd', icon: ic('#9a3c10',['M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z','M9 21h6']) },
       { label:'Today\'s Revenue', value:'₹84,500', delta:'+12%', deltaColor:'#0a8f5b', deltaBg:'#dff3e9', icon: ic('#9a3c10',['M2 8h20v12H2z','M2 8 12 2l10 6'],[{t:'circle',p:{cx:12,cy:14,r:2}}]) },
       { label:'Active Conversations', value:'27', delta:'LIVE', deltaColor:'#b4541b', deltaBg:'#f9e2cd', icon: ic('#9a3c10',['M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z']) },
-      { label:'Leads Qualified', value:'156', delta:'+45', deltaColor:'#0a8f5b', deltaBg:'#dff3e9', icon: ic('#9a3c10',['M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'],[{t:'circle',p:{cx:9,cy:7,r:4}},{t:'path',p:{d:'m17 11 2 2 4-4'}}]) },
-      { label:'Conversion Rate', value:'18.5%', delta:'+2.4%', deltaColor:'#0a8f5b', deltaBg:'#dff3e9', icon: ic('#9a3c10',['M3 3v18h18','M18 9l-5 5-3-3-4 4']) }
+      { label:'Human Queue', value:'4', delta:'URGENT', deltaColor:'#c0392b', deltaBg:'#fdecea', icon: ic('#9a3c10',['M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'],[{t:'circle',p:{cx:9,cy:7,r:4}},{t:'path',p:{d:'M18 8v4M18 16h.01'}}]) }
     ];
     const callIc = React.createElement('svg',{width:14,height:14,viewBox:'0 0 24 24',fill:'none',stroke:'#b4541b',strokeWidth:2},React.createElement('path',{d:'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2'}));
     const mailIc = React.createElement('svg',{width:14,height:14,viewBox:'0 0 24 24',fill:'none',stroke:'#b4541b',strokeWidth:2},React.createElement('rect',{x:2,y:4,width:20,height:16,rx:2}),React.createElement('path',{d:'m2 7 10 6 10-6'}));
