@@ -93,6 +93,7 @@
     .sb-app-shell{display:block!important;}
     .sb-app-sidebar{position:relative!important;top:auto!important;width:100%!important;height:auto!important;padding:10px 12px!important;border-right:0!important;border-bottom:1px solid #efe1d2;overflow:visible!important;}
     .sb-app-brand{padding:2px 4px 10px!important;}
+    .sb-nav-group-label{display:none!important;}
     .sb-new-campaign,.sb-sidebar-bottom{display:none!important;}
     .sb-app-nav{flex-direction:row!important;overflow-x:auto;gap:6px!important;padding-bottom:3px;scrollbar-width:none;}
     .sb-app-nav::-webkit-scrollbar{display:none;}
@@ -739,8 +740,18 @@
       <div><div style="font-family:'Playfair Display',serif;font-weight:800;font-size:17px;color:#9a3c10;line-height:1;">SalesBuddy</div><div style="font-size:10px;letter-spacing:1.5px;color:#b9a795;font-weight:700;margin-top:3px;">AI SALES AGENT</div></div>
     </div>
     <button class="sb-new-campaign" style="cursor:pointer;border:none;background:#9a3c10;color:#fff;font-weight:700;font-size:14px;padding:13px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px;box-shadow:0 6px 16px rgba(154,60,16,.2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Test AI Call</button>
+    <div class="sb-nav-group-label" style="font-size:10px;font-weight:800;letter-spacing:1.4px;color:#b9a795;padding:2px 13px 7px;">DAILY WORK</div>
     <nav class="sb-app-nav" style="display:flex;flex-direction:column;gap:3px;">
-      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="7">
+      <sc-for list="{{ dailyNavItems }}" as="n" hint-placeholder-count="5">
+        <div onClick="{{ n.go }}" style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:11px;background:{{ n.bg }};color:{{ n.color }};font-weight:{{ n.weight }};font-size:14.5px;position:relative;">
+          {{ n.icon }}<span>{{ n.label }}</span>
+          <sc-if value="{{ n.badge }}" hint-placeholder-val="{{ false }}"><span style="margin-left:auto;background:#c0392b;color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 5px;">{{ n.badge }}</span></sc-if>
+        </div>
+      </sc-for>
+    </nav>
+    <div class="sb-nav-group-label" style="font-size:10px;font-weight:800;letter-spacing:1.4px;color:#b9a795;padding:19px 13px 7px;">MANAGE</div>
+    <nav class="sb-app-nav sb-manage-nav" style="display:flex;flex-direction:column;gap:3px;">
+      <sc-for list="{{ manageNavItems }}" as="n" hint-placeholder-count="4">
         <div onClick="{{ n.go }}" style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:11px;background:{{ n.bg }};color:{{ n.color }};font-weight:{{ n.weight }};font-size:14.5px;position:relative;">
           {{ n.icon }}<span>{{ n.label }}</span>
           <sc-if value="{{ n.badge }}" hint-placeholder-val="{{ false }}"><span style="margin-left:auto;background:#c0392b;color:#fff;font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 5px;">{{ n.badge }}</span></sc-if>
@@ -1576,9 +1587,15 @@
 </sc-if>
 <sc-if value="{{ isProducts }}" hint-placeholder-val="{{ false }}">
   <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;">
-    <div><div style="font-size:13px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:6px;">CATALOGUE</div><h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0;">Products</h1></div>
-    <button style="cursor:pointer;border:none;background:#9a3c10;color:#fff;font-weight:700;font-size:13px;padding:11px 20px;border-radius:999px;">+ Add product</button>
+    <div><div style="font-size:13px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:6px;">BUSINESS PROFILE</div><h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0;">Business</h1><p style="font-size:14px;color:#6b6058;margin:7px 0 0;">The approved company, product and commercial information your agent uses.</p></div>
+    <button onClick="{{ openBusinessProfile }}" style="cursor:pointer;border:none;background:#9a3c10;color:#fff;font-weight:700;font-size:13px;padding:11px 20px;border-radius:999px;">Edit business profile</button>
   </div>
+  <div style="background:linear-gradient(160deg,#fff7f0,#fbeada);border:1px solid #f3ddc6;border-radius:18px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+    <div style="width:54px;height:54px;border-radius:15px;background:#9a3c10;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:800;">82%</div>
+    <div style="flex:1;min-width:220px;"><div style="font-weight:800;font-size:16px;">Business profile is almost ready</div><div style="font-size:13px;color:#6b6058;margin-top:4px;">Add delivery timelines so the agent can answer shipping questions without escalation.</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;"><span style="background:#fff;border:1px solid #ead9c8;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800;">DETAILS</span><span style="background:#fff;border:1px solid #ead9c8;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800;">PRICING</span><span style="background:#fff;border:1px solid #ead9c8;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800;">FAQS &amp; POLICIES</span><span style="background:#fff;border:1px solid #ead9c8;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800;">BRAND &amp; HOURS</span></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:24px 0 14px;gap:12px;"><h2 style="font-family:'Playfair Display',serif;font-weight:800;font-size:25px;margin:0;">Products &amp; Services</h2><button style="cursor:pointer;border:1px solid #e1cdb8;background:#fff;color:#9a3c10;font-weight:700;font-size:13px;padding:10px 18px;border-radius:999px;">+ Add product</button></div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
     <sc-for list="{{ productCards }}" as="p" hint-placeholder-count="6">
       <div style="background:#fff;border:1px solid #efe1d2;border-radius:16px;overflow:hidden;">
@@ -1598,7 +1615,7 @@
 <!-- AUTOMATION -->
 <sc-if value="{{ isAutomation }}" hint-placeholder-val="{{ false }}">
   <div style="font-size:13px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:6px;">SCHEDULED &amp; TRIGGERED</div>
-  <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0 0 16px;">Automation</h1>
+  <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0 0 16px;">Automations</h1>
   <div style="display:flex;gap:8px;margin-bottom:20px;">
     <sc-for list="{{ autoTabs }}" as="t" hint-placeholder-count="2"><span onClick="{{ t.go }}" style="cursor:pointer;font-size:13.5px;font-weight:700;padding:9px 18px;border-radius:999px;background:{{ t.bg }};color:{{ t.color }};border:{{ t.border }};">{{ t.l }}</span></sc-for>
   </div>
@@ -1693,7 +1710,7 @@
 <!-- ANALYTICS -->
 <sc-if value="{{ isAnalytics }}" hint-placeholder-val="{{ false }}">
   <div style="font-size:13px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:6px;">BUSINESS INTELLIGENCE</div>
-  <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0 0 16px;">Analytics</h1>
+  <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0 0 16px;">Reports</h1>
   <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
     <div style="display:flex;gap:8px;">
       <sc-for list="{{ anaTabs }}" as="t" hint-placeholder-count="2"><span onClick="{{ t.go }}" style="cursor:pointer;font-size:13.5px;font-weight:700;padding:9px 18px;border-radius:999px;background:{{ t.bg }};color:{{ t.color }};border:{{ t.border }};">{{ t.l }}</span></sc-for>
@@ -1704,7 +1721,7 @@
   </div>
   <sc-if value="{{ anaOverview }}" hint-placeholder-val="{{ true }}">
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;">
-    <sc-for list="{{ anaKpis }}" as="k" hint-placeholder-count="8">
+    <sc-for list="{{ anaKpis }}" as="k" hint-placeholder-count="4">
       <div style="background:#fff;border:1px solid #efe1d2;border-radius:16px;padding:18px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;"><div style="width:36px;height:36px;border-radius:10px;background:#f6dcc2;display:flex;align-items:center;justify-content:center;font-size:17px;">{{ k.icon }}</div><span style="font-size:11.5px;font-weight:800;color:{{ k.deltaColor }};background:{{ k.deltaBg }};padding:4px 9px;border-radius:999px;">{{ k.delta }}</span></div>
         <div style="font-size:12.5px;color:#9b8e80;font-weight:600;">{{ k.label }}</div>
@@ -1816,8 +1833,8 @@
 
 <!-- SETTINGS -->
 <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
-  <div style="font-size:13px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:6px;">TRAIN YOUR AI</div>
-  <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0 0 22px;">Setup</h1>
+  <div style="font-size:13px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:6px;">{{ setupEyebrow }}</div>
+  <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0 0 22px;">{{ setupTitle }}</h1>
   <sc-if value="{{ settingsHome }}" hint-placeholder-val="{{ true }}">
   <div style="display:flex;flex-direction:column;gap:26px;">
     <sc-for list="{{ setupSections }}" as="sec" hint-placeholder-count="5">
@@ -1866,6 +1883,14 @@
   <sc-if value="{{ settingsIntegrations }}" hint-placeholder-val="{{ false }}">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span onClick="{{ backSettings }}" style="cursor:pointer;color:#9a3c10;font-weight:700;font-size:14px;">← All settings</span></div>
   <p style="color:#6b6058;font-size:15px;margin:0 0 24px;max-width:640px;">Connect SalesBuddy to the tools you already run your business on. Each connector lets the AI read, act, and sync automatically — no code required.</p>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;">
+    <sc-for list="{{ integrationOps }}" as="x" hint-placeholder-count="4">
+      <div style="background:#fff;border:1px solid #efe1d2;border-radius:15px;padding:18px;">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;"><span style="font-size:19px;">{{ x.icon }}</span><span style="font-size:10px;font-weight:800;color:{{ x.color }};background:{{ x.bg }};padding:4px 8px;border-radius:999px;">{{ x.status }}</span></div>
+        <div style="font-weight:800;font-size:14px;margin-top:13px;">{{ x.title }}</div><div style="font-size:12px;color:#9b8e80;line-height:1.45;margin-top:4px;">{{ x.desc }}</div>
+      </div>
+    </sc-for>
+  </div>
   <div style="display:flex;flex-direction:column;gap:26px;">
     <sc-for list="{{ connectorGroups }}" as="g" hint-placeholder-count="4">
       <div>
@@ -2568,8 +2593,8 @@
 <!-- WORKSPACE SETTINGS -->
 <sc-if value="{{ isWorkspace }}" hint-placeholder-val="{{ false }}">
   <div style="font-size:13px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:6px;">ACCOUNT &amp; WORKSPACE</div>
-  <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0 0 6px;">Workspace Settings</h1>
-  <p style="color:#6b6058;font-size:15px;margin:0 0 24px;">Manage your account, workspace, team, security and subscription.</p>
+  <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0 0 6px;">Team &amp; Settings</h1>
+  <p style="color:#6b6058;font-size:15px;margin:0 0 24px;">Manage people, roles, assignment rules, notifications, security, billing, privacy and advanced controls.</p>
 
   <!-- HOME -->
   <sc-if value="{{ wsHome }}" hint-placeholder-val="{{ true }}">
@@ -4044,29 +4069,28 @@ class Component extends DCLogic {
     ];
 
     const setupSections = [
-      { group:'AI TRAINING', cards:[
+      { group:'IDENTITY & KNOWLEDGE', cards:[
+        { id:'voice', emoji:'🎙️', title:'Identity & Voice', desc:'Agent name, voice, languages, pronunciation, greeting and optional voice clone.' },
         { id:'brain', emoji:'🧠', title:'Business Brain', desc:'Story, selling points, objection handling & custom instructions.' },
-        { id:'kb', emoji:'📚', title:'Knowledge Base', desc:'Upload PDFs, docs, catalogues & train on your website.' },
+        { id:'kb', emoji:'📚', title:'Knowledge & Publishing', desc:'Sources, conflicts, approvals, expiry dates, version history and rollback.' },
         { id:'training', emoji:'✏️', title:'AI Training Chat', desc:'Teach the AI new facts in plain language.' },
-        { id:'behavior', emoji:'🎚️', title:'AI Behavior Rules', desc:'Tone, aggressiveness, upselling, compliance & handoff.' },
-        { id:'versions', emoji:'🔀', title:'AI Versions', desc:'Save drafts, publish, roll back & compare AI changes safely.' }
+        { id:'versions', emoji:'🔀', title:'AI Versions', desc:'Review drafts, publish approved changes, compare versions and roll back safely.' }
       ]},
-      { group:'SALES CONFIGURATION', cards:[
+      { group:'SALES BEHAVIOUR & SAFETY', cards:[
+        { id:'behavior', emoji:'🎚️', title:'Sales Behaviour', desc:'Qualification, recommendations, upselling, approved comparisons and do-not-say rules.' },
         { id:'products', emoji:'📦', title:'Products & Catalogue', desc:'Prices, bulk rules, stock & AI-selling toggles.' },
         { id:'nego', emoji:'⚖️', title:'Negotiation Rules', desc:'Zone 1/2/3 boundaries, escalation & Auto-Sale mode.' },
-        { id:'payments', emoji:'🏦', title:'Payment Settings', desc:'Razorpay, Stripe, UPI, deposits & invoice templates.' }
+        { id:'payments', emoji:'🏦', title:'Sales Actions', desc:'Quotations, payment links, invoices, deposits and order confirmation permissions.' },
+        { id:'security', emoji:'🛡️', title:'Permissions & Compliance', desc:'Consent, DND and opt-outs, recording disclosure, contact hours and sensitive-data rules.' }
       ]},
-      { group:'CHANNEL CONFIGURATION', cards:[
-        { id:'whatsapp', emoji:'💬', title:'WhatsApp Settings', desc:'Number, WABA status, templates & greeting messages.' },
-        { id:'voice', emoji:'🎙️', title:'Voice Settings', desc:'Persona, voice clone, speaking speed & humanisation.' },
-        { id:'scheduling', emoji:'🗓️', title:'Scheduling & Availability', desc:'Working hours, holidays, slots & calendar sync.' }
-      ]},
-      { group:'INTEGRATIONS', cards:[
-        { id:'integ', emoji:'🔌', title:'Integrations', desc:'Calendar, Zoho, Tally, Shiprocket, Shopify.' }
+      { group:'PHONE, CHANNELS & HANDOFF', cards:[
+        { id:'whatsapp', emoji:'📞', title:'Phone & Channels', desc:'Dedicated number, caller ID, forwarding, IVR, queues, voicemail and connected channels.' },
+        { id:'scheduling', emoji:'🗓️', title:'Availability & Call Rules', desc:'Working hours, holidays, callbacks, simultaneous calls and calendar availability.' },
+        { id:'behavior', emoji:'🤝', title:'Human Handoff', desc:'Escalation triggers, live transfer, supervisor monitoring, whisper/barge and fallback routing.' }
       ]},
       { group:'AI OPERATIONS', cards:[
-        { id:'simulator', emoji:'🧪', title:'AI Simulator', desc:'Test your AI before going live — chat, voice, stress tests & scorecard.' },
-        { id:'deploy', emoji:'🚀', title:'AI Deployment Center', desc:'Control where the AI is live + check deployment readiness.' }
+        { id:'simulator', emoji:'🧪', title:'Test & Quality Review', desc:'Test chat and calls, score script adherence, inspect failed-call reasons and coaching moments.' },
+        { id:'deploy', emoji:'🚀', title:'Go-Live Center', desc:'Setup progress, readiness checklist, test call, publish controls and channel health.' }
       ]}
     ].map(sec => ({ ...sec, cards: sec.cards.map(c => ({ ...c, open: () => this.openSetting(c) })) }));
     const settingsCards = setupSections.reduce((a,s)=>a.concat(s.cards),[]);
@@ -4096,8 +4120,14 @@ class Component extends DCLogic {
       align: m.who==='ai' ? 'flex-start' : 'flex-end', radius: m.who==='ai' ? '4px 16px 16px 16px' : '16px 16px 4px 16px' }));
     const teamRows = s.team.map((t, i) => ({ ...t, isOwner: t.role==='Owner', canRemove: t.role!=='Owner',
       remove: () => { if(t.role==='Owner') return; const arr=s.team.filter((_,x)=>x!==i); this.setState({ team: arr, toast: 'Removed '+t.name }); setTimeout(()=>this.setState({toast:null}),2000); } }));
+    const integrationOps = [
+      { icon:'↔', title:'Field mapping', desc:'Review how contacts, leads, orders and owners map between systems.', status:'READY', color:'#0a8f5b', bg:'#dff3e9' },
+      { icon:'◎', title:'Duplicate rules', desc:'Match customers by phone and email before importing new records.', status:'ACTIVE', color:'#0a8f5b', bg:'#dff3e9' },
+      { icon:'⚠', title:'Sync conflicts', desc:'Resolve competing updates without silently replacing newer information.', status:'2 TO REVIEW', color:'#b4541b', bg:'#f9e2cd' },
+      { icon:'↻', title:'Connection activity', desc:'Inspect sync, authentication and webhook delivery history in one place.', status:'HEALTHY', color:'#0a8f5b', bg:'#dff3e9' }
+    ];
 
-    return { productCards, sequences, autoToggles, retention, funnel, channels, dna, forecast, settingsCards, setupSections, billing,
+    return { productCards, sequences, autoToggles, retention, funnel, channels, dna, forecast, settingsCards, setupSections, billing, integrationOps,
       settingsHome: s.settingsView==='home', settingsBilling: s.settingsView==='billing',
       settingsIntegrations: s.settingsView==='integrations',
       settingsBrain: s.settingsView==='brain', settingsProducts: s.settingsView==='products',
@@ -4118,7 +4148,9 @@ class Component extends DCLogic {
       connectorGroups: this.connectorData(),
       ...this.settingsExtraVals(),
       upgradePro: () => this.openPayment({ type:'plan', name:'Pro', amount:this.PLAN_PRICE.Pro, label:'Pro plan · annual upgrade' }),
-      backSettings: () => this.setState({ settingsView:'home' }) };
+      setupEyebrow: s.tab==='integrations' ? 'CONNECTED TOOLS' : 'AGENT CONFIGURATION',
+      setupTitle: s.tab==='integrations' ? 'Integrations' : 'Agent Setup',
+      backSettings: () => s.tab==='integrations' ? this.setTab('settings') : this.setState({ settingsView:'home' }) };
   }
 
   signupVals() {
@@ -4686,8 +4718,8 @@ class Component extends DCLogic {
     const wsModules = [
       { id:'profile', emoji:'👤', title:'Profile', desc:'Name, email, phone, password, 2FA, language & timezone.' },
       { id:'company', emoji:'🏢', title:'Workspace', desc:'Company name, industry, website, GST & address.' },
-      { id:'team', emoji:'👥', title:'Team & Roles', desc:'Invite users, assign roles & manage permissions.' },
-      { id:'security', emoji:'🛡️', title:'Security Center', desc:'2FA, login history, sessions, devices & audit logs.' },
+      { id:'team', emoji:'👥', title:'Team, Roles & Routing', desc:'Invite users, assign permissions, availability, ownership and lead-routing rules.' },
+      { id:'security', emoji:'🛡️', title:'Security & Privacy', desc:'2FA, sessions, consent records, retention, exports and deletion controls.' },
       { id:'notifications', emoji:'🔔', title:'Notifications', desc:'Control alerts & reports across email, WhatsApp & push.' },
       { id:'billing', emoji:'💳', title:'Billing & Subscription', desc:'Plan, usage, invoices & subscription management.' },
       { id:'api', emoji:'🔑', title:'API Keys', desc:'Generate, copy & revoke API credentials.' },
@@ -4710,7 +4742,6 @@ class Component extends DCLogic {
       { role:'Admin', count:1, perms:'Manage AI, team & all settings', color:'#b4541b', bg:'#f9e2cd' },
       { role:'Sales Manager', count:1, perms:'Manage leads, pipeline & reports', color:'#2a6fdb', bg:'#e2ecfb' },
       { role:'Sales Agent', count:3, perms:'Handle assigned conversations', color:'#0a8f5b', bg:'#dff3e9' },
-      { role:'Support', count:1, perms:'View & respond to tickets', color:'#6b6058', bg:'#f4ece2' },
       { role:'Viewer', count:1, perms:'Read-only dashboards', color:'#9b8e80', bg:'#f4ece2' }
     ];
 
@@ -4824,21 +4855,35 @@ class Component extends DCLogic {
       { id:'settings', label:'Setup', d:['M12 2 4 6v6c0 5 8 10 8 10s8-5 8-10V6z'] },
       { id:'workspace', label:'Settings', d:['M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'], ex:[{t:'circle',p:{cx:12,cy:12,r:3}}] }
     ];
-    const primaryOrder = ['overview','conversations','leads','analytics','automation','settings'];
-    const navItems = nav.filter(n => primaryOrder.includes(n.id)).sort((a,b)=>primaryOrder.indexOf(a.id)-primaryOrder.indexOf(b.id)).map(n => ({
-      label: n.id==='overview' ? 'Home' : n.label, badge: n.badge,
-      go: () => this.setTab(n.id),
-      bg: s.tab===n.id ? '#fbeada' : 'transparent',
-      color: s.tab===n.id ? '#9a3c10' : '#5b524a',
-      weight: s.tab===n.id ? 700 : 600,
-      icon: ic(s.tab===n.id ? '#9a3c10' : '#5b524a', n.d, n.ex)
-    }));
+    const navById = Object.fromEntries(nav.map(n => [n.id,n]));
+    const makeNav = (id, label, target, go, badge) => {
+      const n = navById[id];
+      const active = target==='integrations' ? s.tab==='integrations' : s.tab===target;
+      return {
+        label, badge: badge || n.badge, go,
+        bg: active ? '#fbeada' : 'transparent', color: active ? '#9a3c10' : '#5b524a', weight: active ? 700 : 600,
+        icon: ic(active ? '#9a3c10' : '#5b524a', n.d, n.ex)
+      };
+    };
+    const dailyNavItems = [
+      makeNav('overview','Home','overview',()=>this.setTab('overview')),
+      makeNav('conversations','Inbox','conversations',()=>this.setTab('conversations'),'4'),
+      makeNav('leads','Leads','leads',()=>this.setTab('leads')),
+      makeNav('automation','Automations','automation',()=>this.setTab('automation')),
+      makeNav('analytics','Reports','analytics',()=>this.setTab('analytics'))
+    ];
+    const manageNavItems = [
+      makeNav('settings','Agent Setup','settings',()=>this.setTab('settings'),'1'),
+      makeNav('command','Integrations','integrations',()=>{this.setState({tab:'integrations',settingsView:'integrations'});window.scrollTo(0,0);}),
+      makeNav('products','Business','products',()=>this.setTab('products')),
+      makeNav('workspace','Team & Settings','workspace',()=>this.setTab('workspace'))
+    ];
 
     const stats = [
-      { label:'AI Power Score', value:'82', delta:'3 actions', deltaColor:'#b4541b', deltaBg:'#f9e2cd', icon: ic('#9a3c10',['M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z','M9 21h6']) },
-      { label:'Today\'s Revenue', value:'₹84,500', delta:'+12%', deltaColor:'#0a8f5b', deltaBg:'#dff3e9', icon: ic('#9a3c10',['M2 8h20v12H2z','M2 8 12 2l10 6'],[{t:'circle',p:{cx:12,cy:14,r:2}}]) },
-      { label:'Active Conversations', value:'27', delta:'LIVE', deltaColor:'#b4541b', deltaBg:'#f9e2cd', icon: ic('#9a3c10',['M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z']) },
-      { label:'Human Queue', value:'4', delta:'URGENT', deltaColor:'#c0392b', deltaBg:'#fdecea', icon: ic('#9a3c10',['M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'],[{t:'circle',p:{cx:9,cy:7,r:4}},{t:'path',p:{d:'M18 8v4M18 16h.01'}}]) }
+      { label:'New Enquiries', value:'27', delta:'+18%', deltaColor:'#0a8f5b', deltaBg:'#dff3e9', icon: ic('#9a3c10',['M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z']) },
+      { label:'Qualified Leads', value:'11', delta:'+3 today', deltaColor:'#0a8f5b', deltaBg:'#dff3e9', icon: ic('#9a3c10',['M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'],[{t:'circle',p:{cx:9,cy:7,r:4}}]) },
+      { label:'Deals Won', value:'4', delta:'+1 today', deltaColor:'#0a8f5b', deltaBg:'#dff3e9', icon: ic('#9a3c10',['M5 12l4 4L19 6']) },
+      { label:'Revenue Generated', value:'₹84,500', delta:'+12%', deltaColor:'#0a8f5b', deltaBg:'#dff3e9', icon: ic('#9a3c10',['M2 8h20v12H2z','M2 8 12 2l10 6'],[{t:'circle',p:{cx:12,cy:14,r:2}}]) }
     ];
     const callIc = React.createElement('svg',{width:14,height:14,viewBox:'0 0 24 24',fill:'none',stroke:'#b4541b',strokeWidth:2},React.createElement('path',{d:'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2'}));
     const mailIc = React.createElement('svg',{width:14,height:14,viewBox:'0 0 24 24',fill:'none',stroke:'#b4541b',strokeWidth:2},React.createElement('rect',{x:2,y:4,width:20,height:16,rx:2}),React.createElement('path',{d:'m2 7 10 6 10-6'}));
@@ -4876,7 +4921,7 @@ class Component extends DCLogic {
     ].map(p => ({ ...p, buy: () => this.openPayment({ type: 'topup', mins: p.mins, amount: parseInt(p.price.replace(/[^\d]/g,'')), label: p.mins + ' voice minutes' }) }));
 
     return {
-      navItems, stats, hotLeads, activity, nudges, packs,
+      dailyNavItems, manageNavItems, stats, hotLeads, activity, nudges, packs,
       ...this.convVals(), ...this.leadVals(), ...this.tabVals(), ...this.featureVals(), ...this.intelVals(), ...this.wsVals(),
       isOverview: s.tab==='overview',
       // sub-views
@@ -4897,14 +4942,10 @@ class Component extends DCLogic {
         { l:'Overview', v:'overview' }, { l:'Call Logs', v:'calls' }
       ].map(t=>({ ...t, active:s.anaView===t.v, bg:s.anaView===t.v?'#9a3c10':'#fff', color:s.anaView===t.v?'#fff':'#6b6058', border:s.anaView===t.v?'none':'1px solid #e6d5c4', go:()=>this.setAnaView(t.v) })),
       anaKpis: [
-        { label:'Conversations', value:'4,820', delta:'+18%', up:true, icon:'💬' },
         { label:'Leads Generated', value:'1,840', delta:'+22%', up:true, icon:'🎯' },
         { label:'Qualified Leads', value:'742', delta:'+12%', up:true, icon:'✅' },
         { label:'Revenue Generated', value:'₹28.4L', delta:'+31%', up:true, icon:'💰' },
-        { label:'Conversion Rate', value:'18.5%', delta:'+2.4%', up:true, icon:'📈' },
-        { label:'Appointment Bookings', value:'214', delta:'+9%', up:true, icon:'📅' },
-        { label:'Call Performance', value:'31%', delta:'close rate', up:true, icon:'📞' },
-        { label:'AI Performance Score', value:'82', delta:'/ 100', up:true, icon:'🤖' }
+        { label:'Deals Won', value:'341', delta:'+16%', up:true, icon:'🏆' }
       ].map(k=>({ ...k, deltaColor:k.up?'#0a8f5b':'#c0392b', deltaBg:k.up?'#dff3e9':'#fdecea' })),
       anaRanges: ['7 days','30 days','90 days','This year'].map((r,i)=>({ label:r, active:i===1, bg:i===1?'#9a3c10':'#fff', color:i===1?'#fff':'#6b6058', border:i===1?'none':'1px solid #e6d5c4' })),
       isProfile: s.tab==='profile',
@@ -4920,8 +4961,9 @@ class Component extends DCLogic {
       isProducts: s.tab==='products',
       isAutomation: s.tab==='automation',
       isAnalytics: s.tab==='analytics',
-      isSettings: s.tab==='settings',
+      isSettings: s.tab==='settings' || s.tab==='integrations',
       isWorkspace: s.tab==='workspace',
+      openBusinessProfile: () => { this.setState({toast:'Business profile editor opened ✓'}); setTimeout(()=>this.setState({toast:null}),2200); },
       goLeads: () => this.setTab('leads'),
       goSettings: () => this.setTab('workspace'),
       openTopup: this.openTopup, closeTopup: this.closeTopup, stop: (e)=>e.stopPropagation(),
