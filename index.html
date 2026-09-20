@@ -190,6 +190,30 @@
     .sb-order-title{font-size:34px!important;}
   }
 
+  /* Website analytics & chatbot workspace */
+  .sb-web-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:20px;flex-wrap:wrap;}
+  .sb-web-tabs{display:flex;align-items:center;gap:8px;overflow-x:auto;padding-bottom:3px;margin-bottom:20px;scrollbar-width:none;}
+  .sb-web-tabs::-webkit-scrollbar{display:none;}
+  .sb-web-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px;margin-bottom:18px;}
+  .sb-web-card{background:#fff;border:1px solid #efe1d2;border-radius:18px;box-shadow:0 8px 24px rgba(28,23,20,.035);}
+  .sb-web-split{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.75fr);gap:18px;}
+  .sb-web-table{overflow-x:auto;}
+  .sb-web-row{display:grid;grid-template-columns:1.2fr 1fr .8fr 1.15fr .8fr;gap:14px;align-items:center;min-width:760px;padding:15px 18px;border-top:1px solid #f3e8dc;}
+  .sb-web-row:first-child{border-top:0;}
+  .sb-web-funnel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:end;}
+  .sb-web-code{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;color:#f7e9dc;background:#211b18;border-radius:14px;padding:18px;overflow-x:auto;white-space:pre;}
+  .sb-web-preview{background:linear-gradient(145deg,#fff9f3,#f7e5d3);border:1px solid #ecd6c1;border-radius:20px;min-height:440px;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;}
+  @media(max-width:1100px){
+    .sb-web-kpis{grid-template-columns:repeat(3,minmax(0,1fr));}
+    .sb-web-split{grid-template-columns:minmax(0,1fr);}
+  }
+  @media(max-width:680px){
+    .sb-web-kpis,.sb-web-funnel{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .sb-web-head{align-items:stretch;}
+    .sb-web-head>div:last-child{width:100%;}
+    .sb-web-head button{flex:1;}
+  }
+
 </style>
 </helmet>
 
@@ -1784,6 +1808,91 @@
   </sc-if>
 </sc-if>
 
+<!-- WEBSITE -->
+<sc-if value="{{ isWebsite }}" hint-placeholder-val="{{ false }}">
+  <div class="sb-web-head">
+    <div>
+      <div style="font-size:13px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:6px;">WEBSITE</div>
+      <h1 style="font-family:'Playfair Display',serif;font-weight:800;font-size:38px;letter-spacing:-1px;margin:0;">Website growth</h1>
+      <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:8px;"><span style="font-size:13.5px;color:#6b6058;">suratsilk.in</span><span style="background:#dff3e9;color:#0a8f5b;border-radius:999px;padding:5px 10px;font-size:10.5px;font-weight:900;">● CONNECTED</span><span style="font-size:11.5px;color:#9b8e80;">Last event 12 sec ago</span></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
+      <button onClick="{{ refreshWebsite }}" style="cursor:pointer;border:1px solid #e1cdb8;background:#fff;color:#6b6058;font-weight:800;font-size:12.5px;padding:10px 15px;border-radius:999px;">↻ Refresh</button>
+      <button onClick="{{ openWebsite }}" style="cursor:pointer;border:0;background:#9a3c10;color:#fff;font-weight:800;font-size:12.5px;padding:11px 17px;border-radius:999px;box-shadow:0 7px 18px rgba(154,60,16,.2);">Open website ↗</button>
+    </div>
+  </div>
+
+  <div class="sb-web-tabs">
+    <sc-for list="{{ websiteTabs }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.go }}" style="cursor:pointer;white-space:nowrap;border:{{ t.border }};background:{{ t.bg }};color:{{ t.color }};font-weight:800;font-size:12.5px;padding:9px 16px;border-radius:999px;">{{ t.label }}</button></sc-for>
+  </div>
+
+  <sc-if value="{{ webOverview }}" hint-placeholder-val="{{ true }}">
+    <div class="sb-web-kpis">
+      <sc-for list="{{ websiteKpis }}" as="k" hint-placeholder-count="5">
+        <div class="sb-web-card" style="padding:17px;"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;"><span style="font-size:11px;font-weight:900;letter-spacing:.5px;color:#8b7d70;">{{ k.label }}</span><span style="font-size:16px;">{{ k.icon }}</span></div><div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:800;margin-top:8px;">{{ k.value }}</div><div style="font-size:11.5px;color:{{ k.deltaColor }};font-weight:700;margin-top:3px;">{{ k.delta }}</div></div>
+      </sc-for>
+    </div>
+    <div class="sb-web-split">
+      <div class="sb-web-card" style="padding:21px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;"><div><h3 style="font-family:'Playfair Display',serif;font-size:21px;margin:0;">Visitor to lead journey</h3><div style="font-size:12px;color:#8b7d70;margin-top:4px;">Last 30 days</div></div><span style="background:#dff3e9;color:#0a8f5b;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800;">5.8% conversion</span></div>
+        <div class="sb-web-funnel">
+          <sc-for list="{{ websiteFunnel }}" as="f" hint-placeholder-count="4"><div><div style="height:{{ f.height }};min-height:55px;background:{{ f.bg }};border-radius:12px 12px 4px 4px;display:flex;align-items:flex-end;padding:12px;color:{{ f.color }};font-family:'Playfair Display',serif;font-size:23px;font-weight:800;">{{ f.value }}</div><div style="font-size:11.5px;color:#6b6058;font-weight:700;margin-top:7px;">{{ f.label }}</div><div style="font-size:10.5px;color:#9b8e80;margin-top:2px;">{{ f.rate }}</div></div></sc-for>
+        </div>
+      </div>
+      <div class="sb-web-card" style="padding:21px;background:linear-gradient(145deg,#fff8f0,#fff);">
+        <div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:11px;background:#f6dcc2;display:flex;align-items:center;justify-content:center;">✦</div><div><div style="font-size:10.5px;font-weight:900;letter-spacing:1px;color:#b4541b;">SALESBUDDY INSIGHT</div><div style="font-weight:800;font-size:14px;margin-top:2px;">Pricing visitors are ready to talk</div></div></div>
+        <p style="font-size:13px;color:#6b6058;line-height:1.6;margin:16px 0;">Visitors who view pricing twice convert 3.2× better. Offer the chatbot after their second visit and route replies to the hot-lead queue.</p>
+        <button onClick="{{ applyWebsiteInsight }}" style="cursor:pointer;border:0;background:#1c1714;color:#fff;font-size:12px;font-weight:800;padding:10px 14px;border-radius:999px;">Apply suggestion</button>
+      </div>
+    </div>
+    <div class="sb-web-split" style="margin-top:18px;">
+      <div class="sb-web-card" style="padding:21px;"><h3 style="font-family:'Playfair Display',serif;font-size:20px;margin:0 0 14px;">Top pages</h3><sc-for list="{{ websitePages }}" as="p" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:minmax(0,1fr) 70px 70px;gap:12px;align-items:center;padding:12px 0;border-top:1px solid #f3e8dc;"><div><div style="font-size:13px;font-weight:800;">{{ p.page }}</div><div style="height:5px;background:#f3e8dc;border-radius:99px;margin-top:7px;overflow:hidden;"><div style="height:100%;width:{{ p.bar }};background:#ed7a2c;border-radius:99px;"></div></div></div><div style="font-size:12px;color:#6b6058;text-align:right;">{{ p.views }}</div><div style="font-size:12px;font-weight:800;color:#0a8f5b;text-align:right;">{{ p.conv }}</div></div></sc-for></div>
+      <div class="sb-web-card" style="padding:21px;"><h3 style="font-family:'Playfair Display',serif;font-size:20px;margin:0 0 14px;">Live activity</h3><sc-for list="{{ websiteActivity }}" as="a" hint-placeholder-count="4"><div style="display:flex;gap:10px;padding:10px 0;border-top:1px solid #f3e8dc;"><span style="width:8px;height:8px;border-radius:50%;background:{{ a.dot }};margin-top:5px;flex:none;"></span><div style="flex:1;"><div style="font-size:12.5px;line-height:1.4;">{{ a.text }}</div><div style="font-size:10.5px;color:#9b8e80;margin-top:3px;">{{ a.time }}</div></div></div></sc-for></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ webVisitors }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;"><div><h2 style="font-family:'Playfair Display',serif;font-size:25px;margin:0;">Website visitors</h2><p style="font-size:12.5px;color:#6b6058;margin:5px 0 0;">See intent and browsing context before starting a conversation.</p></div><div style="display:flex;gap:8px;"><button style="border:1px solid #e1cdb8;background:#fff;border-radius:999px;padding:9px 13px;font-weight:700;color:#6b6058;">All visitors</button><button style="border:1px solid #e1cdb8;background:#fff;border-radius:999px;padding:9px 13px;font-weight:700;color:#6b6058;">High intent</button></div></div>
+    <div class="sb-web-card sb-web-table"><div class="sb-web-row" style="background:#fffaf5;color:#8b7d70;font-size:10.5px;font-weight:900;letter-spacing:.55px;"><span>VISITOR</span><span>INTENT</span><span>SOURCE</span><span>JOURNEY</span><span>LAST SEEN</span></div><sc-for list="{{ websiteVisitors }}" as="v" hint-placeholder-count="6"><div class="sb-web-row"><div><div style="font-size:13px;font-weight:800;">{{ v.name }}</div><div style="font-size:10.5px;color:#9b8e80;margin-top:3px;">{{ v.meta }}</div></div><div><span style="display:inline-flex;background:{{ v.intentBg }};color:{{ v.intentColor }};padding:5px 9px;border-radius:999px;font-size:10.5px;font-weight:900;">{{ v.intent }}</span></div><div style="font-size:12px;color:#6b6058;">{{ v.source }}</div><div><div style="font-size:12px;font-weight:700;">{{ v.page }}</div><div style="font-size:10.5px;color:#9b8e80;margin-top:3px;">{{ v.depth }}</div></div><div><div style="font-size:11.5px;color:#6b6058;">{{ v.time }}</div><button onClick="{{ v.contact }}" style="cursor:pointer;border:0;background:transparent;color:#9a3c10;font-size:11px;font-weight:900;padding:5px 0 0;">{{ v.action }}</button></div></div></sc-for></div>
+  </sc-if>
+
+  <sc-if value="{{ webAnalytics }}" hint-placeholder-val="{{ false }}">
+    <div class="sb-web-kpis"><sc-for list="{{ websiteAnalyticsKpis }}" as="k" hint-placeholder-count="5"><div class="sb-web-card" style="padding:17px;"><div style="font-size:11px;font-weight:900;color:#8b7d70;">{{ k.label }}</div><div style="font-family:'Playfair Display',serif;font-size:27px;font-weight:800;margin-top:8px;">{{ k.value }}</div><div style="font-size:11px;color:#0a8f5b;margin-top:4px;">{{ k.delta }}</div></div></sc-for></div>
+    <div class="sb-web-split">
+      <div class="sb-web-card" style="padding:22px;"><div style="display:flex;justify-content:space-between;align-items:center;"><div><h3 style="font-family:'Playfair Display',serif;font-size:21px;margin:0;">Traffic &amp; conversions</h3><div style="font-size:11.5px;color:#9b8e80;margin-top:4px;">Daily visitors · last 14 days</div></div><span style="font-size:11px;color:#6b6058;">Visitors <b style="color:#ed7a2c;">●</b>&nbsp; Leads <b style="color:#0a8f5b;">●</b></span></div><div style="height:230px;display:flex;align-items:flex-end;gap:9px;padding-top:25px;border-bottom:1px solid #eadfd3;"><sc-for list="{{ websiteChart }}" as="b" hint-placeholder-count="14"><div style="flex:1;height:100%;display:flex;align-items:flex-end;justify-content:center;gap:3px;"><span style="width:45%;height:{{ b.visitors }};background:#f3b57f;border-radius:5px 5px 0 0;"></span><span style="width:28%;height:{{ b.leads }};background:#0a8f5b;border-radius:5px 5px 0 0;"></span></div></sc-for></div><div style="display:flex;justify-content:space-between;color:#9b8e80;font-size:10px;margin-top:7px;"><span>7 Sep</span><span>13 Sep</span><span>20 Sep</span></div></div>
+      <div class="sb-web-card" style="padding:22px;"><h3 style="font-family:'Playfair Display',serif;font-size:21px;margin:0 0 17px;">Acquisition</h3><sc-for list="{{ websiteSources }}" as="s" hint-placeholder-count="5"><div style="margin-bottom:15px;"><div style="display:flex;justify-content:space-between;font-size:12px;"><span style="font-weight:700;">{{ s.name }}</span><span style="color:#6b6058;">{{ s.value }}</span></div><div style="height:7px;background:#f3e8dc;border-radius:999px;margin-top:7px;overflow:hidden;"><div style="height:100%;width:{{ s.bar }};background:{{ s.color }};border-radius:999px;"></div></div></div></sc-for></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ webChatbot }}" hint-placeholder-val="{{ false }}">
+    <div class="sb-web-split">
+      <div class="sb-web-card" style="padding:23px;"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;"><div><h2 style="font-family:'Playfair Display',serif;font-size:25px;margin:0;">Website chatbot</h2><p style="font-size:12.5px;color:#6b6058;margin:5px 0 0;">Configure how SalesBuddy appears and captures leads.</p></div><span style="background:#dff3e9;color:#0a8f5b;padding:6px 10px;border-radius:999px;font-size:10.5px;font-weight:900;">● LIVE</span></div>
+        <label style="font-size:10.5px;font-weight:900;color:#8b7d70;">WELCOME MESSAGE</label><textarea onInput="{{ onWebGreeting }}" style="width:100%;min-height:82px;border:1px solid #e6d5c4;border-radius:12px;padding:12px;font-size:13px;line-height:1.5;margin:6px 0 17px;resize:vertical;">{{ webGreeting }}</textarea>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:18px;"><div><label style="font-size:10.5px;font-weight:900;color:#8b7d70;">ASSISTANT NAME</label><input value="SalesBuddy" style="width:100%;border:1px solid #e6d5c4;border-radius:11px;padding:11px;margin-top:6px;"/></div><div><label style="font-size:10.5px;font-weight:900;color:#8b7d70;">BRAND COLOUR</label><div style="display:flex;align-items:center;gap:9px;border:1px solid #e6d5c4;border-radius:11px;padding:8px 11px;margin-top:6px;"><span style="width:23px;height:23px;border-radius:7px;background:#9a3c10;"></span><span style="font-family:monospace;font-size:12px;">#9A3C10</span></div></div></div>
+        <sc-for list="{{ websiteChatToggles }}" as="t" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:13px;padding:14px 0;border-top:1px solid #f3e8dc;"><div style="flex:1;"><div style="font-size:13px;font-weight:800;">{{ t.label }}</div><div style="font-size:11px;color:#8b7d70;margin-top:3px;">{{ t.desc }}</div></div><div onClick="{{ t.toggle }}" style="cursor:pointer;width:40px;height:22px;border-radius:999px;background:{{ t.track }};position:relative;flex:none;"><span style="position:absolute;top:3px;left:{{ t.knob }};width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.2);"></span></div></div></sc-for>
+        <button onClick="{{ saveWebsiteChat }}" style="cursor:pointer;border:0;background:#9a3c10;color:#fff;font-weight:800;padding:11px 18px;border-radius:999px;margin-top:18px;">Save &amp; publish</button>
+      </div>
+      <div class="sb-web-preview"><div style="text-align:center;color:#8b7d70;font-size:11px;margin:auto auto 20px;">Live desktop preview</div><div style="background:#fff;border-radius:18px;box-shadow:0 18px 45px rgba(28,23,20,.18);overflow:hidden;max-width:355px;margin-left:auto;width:100%;"><div style="background:#9a3c10;color:#fff;padding:15px 17px;display:flex;align-items:center;gap:10px;"><span style="width:34px;height:34px;border-radius:10px;background:#fff;color:#9a3c10;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;">S</span><div><div style="font-weight:800;font-size:13px;">SalesBuddy</div><div style="font-size:10px;opacity:.8;">Online · replies instantly</div></div></div><div style="padding:18px;background:#fffaf5;min-height:195px;"><div style="background:#fff;border:1px solid #efe1d2;border-radius:5px 14px 14px 14px;padding:12px;font-size:12.5px;line-height:1.5;max-width:88%;">{{ webGreeting }}</div><div style="display:flex;gap:7px;margin-top:12px;flex-wrap:wrap;"><span style="background:#fff;border:1px solid #e6d5c4;border-radius:999px;padding:7px 10px;font-size:10.5px;color:#9a3c10;font-weight:800;">View sarees</span><span style="background:#fff;border:1px solid #e6d5c4;border-radius:999px;padding:7px 10px;font-size:10.5px;color:#9a3c10;font-weight:800;">Talk to sales</span></div></div><div style="padding:12px;border-top:1px solid #efe1d2;color:#b9a795;font-size:11px;">Type your message… <span style="float:right;color:#9a3c10;">➤</span></div></div></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ webSetup }}" hint-placeholder-val="{{ false }}">
+    <div class="sb-web-split">
+      <div class="sb-web-card" style="padding:23px;"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;"><div><div style="font-size:10.5px;font-weight:900;letter-spacing:1px;color:#ed7a2c;">INSTALLATION</div><h2 style="font-family:'Playfair Display',serif;font-size:25px;margin:5px 0 5px;">Add SalesBuddy to your website</h2><p style="font-size:12.5px;color:#6b6058;margin:0;">Paste this once before the closing &lt;/body&gt; tag on every page.</p></div><span style="background:#dff3e9;color:#0a8f5b;padding:6px 10px;border-radius:999px;font-size:10.5px;font-weight:900;">✓ SNIPPET DETECTED</span></div>
+        <div class="sb-web-code" style="margin-top:20px;">&lt;script
+  src="https://cdn.salesbuddy.ai/widget.js"
+  data-workspace="ws_suratsilk_82f1"
+  data-domain="suratsilk.in"
+  async&gt;
+&lt;/script&gt;</div>
+        <div style="display:flex;gap:9px;margin-top:13px;flex-wrap:wrap;"><button onClick="{{ copyWebsiteSnippet }}" style="cursor:pointer;border:0;background:#9a3c10;color:#fff;font-weight:800;font-size:12px;padding:10px 15px;border-radius:999px;">Copy snippet</button><button onClick="{{ emailWebsiteSnippet }}" style="cursor:pointer;border:1px solid #e1cdb8;background:#fff;color:#6b6058;font-weight:800;font-size:12px;padding:9px 15px;border-radius:999px;">Email to developer</button><button onClick="{{ testWebsiteConnection }}" style="cursor:pointer;border:1px solid #e1cdb8;background:#fff;color:#6b6058;font-weight:800;font-size:12px;padding:9px 15px;border-radius:999px;">Test connection</button></div>
+        <div style="margin-top:22px;border-top:1px solid #f3e8dc;padding-top:18px;"><div style="font-size:12px;font-weight:900;">What this snippet collects</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px;"><sc-for list="{{ websiteCollection }}" as="c" hint-placeholder-count="6"><div style="display:flex;gap:8px;align-items:center;font-size:11.5px;color:#6b6058;"><span style="color:#0a8f5b;font-weight:900;">✓</span>{{ c }}</div></sc-for></div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:15px;"><div class="sb-web-card" style="padding:20px;"><div style="font-size:11px;font-weight:900;color:#8b7d70;">CONNECTION STATUS</div><div style="display:flex;gap:11px;align-items:center;margin-top:13px;"><span style="width:40px;height:40px;border-radius:12px;background:#dff3e9;color:#0a8f5b;display:flex;align-items:center;justify-content:center;font-size:18px;">✓</span><div><div style="font-size:13.5px;font-weight:900;">suratsilk.in is connected</div><div style="font-size:11px;color:#8b7d70;margin-top:3px;">Installed 18 Sep 2026 · v1.4.2</div></div></div></div><div class="sb-web-card" style="padding:20px;"><div style="font-size:11px;font-weight:900;color:#8b7d70;margin-bottom:7px;">TRACKING</div><sc-for list="{{ websiteTracking }}" as="t" hint-placeholder-count="4"><div style="display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-top:1px solid #f3e8dc;"><span style="font-size:12px;color:#6b6058;">{{ t.label }}</span><span style="font-size:10.5px;font-weight:900;color:#0a8f5b;">{{ t.status }}</span></div></sc-for></div><div style="background:#fff4e8;border:1px solid #f0dcc6;border-radius:17px;padding:18px;"><div style="font-weight:900;font-size:12.5px;">Privacy-ready by default</div><p style="font-size:11.5px;color:#6b6058;line-height:1.5;margin:7px 0 0;">Anonymous browsing stays anonymous until a visitor shares contact details. Consent settings can be matched to your privacy notice.</p></div></div>
+    </div>
+  </sc-if>
+</sc-if>
+
 <!-- AUTOMATION -->
 <sc-if value="{{ isAutomation }}" hint-placeholder-val="{{ false }}">
   <div style="font-size:13px;font-weight:800;letter-spacing:1.5px;color:#ed7a2c;margin-bottom:6px;">SCHEDULED &amp; TRIGGERED</div>
@@ -3305,7 +3414,9 @@ class Component extends DCLogic {
     draft: '',
     toast: null,
     // ===== sub-views for top-level tabs =====
-    convView: 'inbox', leadView: 'pipeline', autoView: 'flows', anaView: 'overview',
+    convView: 'inbox', leadView: 'pipeline', autoView: 'flows', anaView: 'overview', webView: 'overview',
+    webGreeting: 'Namaste! Looking for the perfect silk saree? I can help with styles, pricing, delivery and bulk orders.',
+    webChatLeadCapture: true, webChatProactive: true, webChatSound: false, webChatHandoff: true,
     // ===== Knowledge Base =====
     kbSearch: '', kbCat: 'All', kbUrl: '', kbFaqQ: '', kbFaqA: '', kbFaqShow: false,
     kbDocs: [
@@ -3555,7 +3666,7 @@ class Component extends DCLogic {
   };
   removeProduct = (i) => this.setState({ products: this.state.products.filter((_, j) => j !== i) });
   toggleProductAI = (i) => this.setState({ products: this.state.products.map((p, j) => j === i ? { ...p, ai: !p.ai } : p) });
-  setTab = (tab) => { this.setState({ tab, settingsView: 'home', wsView: 'home', convView:'inbox', leadView:'pipeline', autoView:'flows', anaView:'overview' }); window.scrollTo(0,0); };
+  setTab = (tab) => { this.setState({ tab, settingsView: 'home', wsView: 'home', convView:'inbox', leadView:'pipeline', autoView:'flows', anaView:'overview', webView:'overview' }); window.scrollTo(0,0); };
   openTopup = () => this.setState({ topupOpen: true });
   closeTopup = () => this.setState({ topupOpen: false });
   buyPack = (mins) => {
@@ -3647,6 +3758,18 @@ class Component extends DCLogic {
   setLeadView = (v) => { this.setState({ leadView: v }); window.scrollTo(0,0); };
   setAutoView = (v) => { this.setState({ autoView: v }); window.scrollTo(0,0); };
   setAnaView = (v) => { this.setState({ anaView: v }); window.scrollTo(0,0); };
+  setWebView = (v) => { this.setState({ webView: v }); window.scrollTo(0,0); };
+  webToast = (message) => { this.setState({ toast: message }); setTimeout(()=>this.setState({toast:null}),2200); };
+  refreshWebsite = () => this.webToast('Website data refreshed ✓');
+  openWebsite = () => this.webToast('Opening suratsilk.in in a new tab');
+  applyWebsiteInsight = () => this.webToast('Pricing-page trigger enabled ✓');
+  contactWebsiteVisitor = (name) => () => this.webToast('Lead opened for ' + name);
+  onWebGreeting = (e) => this.setField('webGreeting', e.target.value);
+  toggleWebsiteChat = (key) => () => this.setField(key, !this.state[key]);
+  saveWebsiteChat = () => this.webToast('Website chatbot published ✓');
+  copyWebsiteSnippet = () => { const code='<scr'+'ipt src="https://cdn.salesbuddy.ai/widget.js" data-workspace="ws_suratsilk_82f1" data-domain="suratsilk.in" async></scr'+'ipt>'; if(navigator.clipboard) navigator.clipboard.writeText(code).catch(()=>{}); this.webToast('Snippet copied to clipboard ✓'); };
+  emailWebsiteSnippet = () => this.webToast('Snippet emailed to your developer ✓');
+  testWebsiteConnection = () => this.webToast('Connection verified · events are arriving ✓');
   // ===== Knowledge Base =====
   onKb = (k) => (e) => this.setField(k, e.target.value);
   kbUpload = (type, ext) => {
@@ -5079,6 +5202,7 @@ class Component extends DCLogic {
       { id:'conversations', label:'Conversations', d:['M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'], badge:'4' },
       { id:'leads', label:'Leads', d:['M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2','M22 21v-2a4 4 0 0 0-3-3.87'], ex:[{t:'circle',p:{cx:9,cy:7,r:4}},{t:'path',p:{d:'M16 3.13a4 4 0 0 1 0 7.75'}}] },
       { id:'orders', label:'Orders', d:['M3 7h18l-2 13H5L3 7z','M7 7V5a5 5 0 0 1 10 0v2','M8 11v1','M16 11v1'] },
+      { id:'website', label:'Website', d:['M3 5h18v14H3z','M3 9h18','M7 7h.01','M10 7h.01','M8 13h3v3H8z','M14 13h3','M14 16h3'] },
       { id:'campaigns', label:'Campaigns', d:['m3 11 18-5v12L3 14v-3z','M11.6 16.8a3 3 0 1 1-5.8-1.6'] },
       { id:'quotes', label:'Quotes', d:['M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z','M14 2v6h6','M16 13H8','M16 17H8','M10 9H8'] },
       { id:'products', label:'Products', d:['M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z','M3 6h18','M16 10a4 4 0 0 1-8 0'] },
@@ -5103,6 +5227,7 @@ class Component extends DCLogic {
       makeNav('conversations','Inbox','conversations',()=>this.setTab('conversations'),'4'),
       makeNav('leads','Leads','leads',()=>this.setTab('leads')),
       makeNav('orders','Orders','orders',()=>this.setTab('orders'),'2'),
+      makeNav('website','Website','website',()=>this.setTab('website')),
       makeNav('automation','Automations','automation',()=>this.setTab('automation')),
       makeNav('analytics','Reports','analytics',()=>this.setTab('analytics'))
     ];
@@ -5154,8 +5279,71 @@ class Component extends DCLogic {
       { mins:500, price:'₹4,500', rate:'₹9/min', best:true }
     ].map(p => ({ ...p, buy: () => this.openPayment({ type: 'topup', mins: p.mins, amount: parseInt(p.price.replace(/[^\d]/g,'')), label: p.mins + ' voice minutes' }) }));
 
+    const websiteTabs = [
+      { label:'Overview', value:'overview' }, { label:'Visitors', value:'visitors' },
+      { label:'Analytics', value:'analytics' }, { label:'Chatbot', value:'chatbot' }, { label:'Setup', value:'setup' }
+    ].map(t=>({ ...t, bg:s.webView===t.value?'#9a3c10':'#fff', color:s.webView===t.value?'#fff':'#6b6058', border:s.webView===t.value?'none':'1px solid #e6d5c4', go:()=>this.setWebView(t.value) }));
+    const websiteKpis = [
+      { label:'VISITORS', value:'8,420', delta:'+18.4% vs last month', deltaColor:'#0a8f5b', icon:'◉' },
+      { label:'IDENTIFIED', value:'1,286', delta:'15.3% of visitors', deltaColor:'#2a6fdb', icon:'◎' },
+      { label:'LEADS', value:'486', delta:'+24.1% vs last month', deltaColor:'#0a8f5b', icon:'✦' },
+      { label:'CHAT STARTS', value:'732', delta:'8.7% engagement', deltaColor:'#b4541b', icon:'◌' },
+      { label:'QUALIFIED', value:'214', delta:'44% of leads', deltaColor:'#0a8f5b', icon:'✓' }
+    ];
+    const websiteFunnel = [
+      { label:'Visitors', value:'8,420', rate:'100%', height:'170px', bg:'#f8dcc2', color:'#9a3c10' },
+      { label:'Engaged', value:'3,184', rate:'37.8%', height:'132px', bg:'#f3b57f', color:'#733013' },
+      { label:'Identified', value:'1,286', rate:'15.3%', height:'96px', bg:'#e88745', color:'#fff' },
+      { label:'Leads', value:'486', rate:'5.8%', height:'68px', bg:'#9a3c10', color:'#fff' }
+    ];
+    const websitePages = [
+      { page:'/collections/bridal-sarees', views:'2,410', conv:'8.9%', bar:'92%' },
+      { page:'/pricing', views:'1,840', conv:'11.4%', bar:'74%' },
+      { page:'/banarasi-silk', views:'1,390', conv:'6.8%', bar:'57%' },
+      { page:'/bulk-orders', views:'925', conv:'14.2%', bar:'41%' }
+    ];
+    const websiteActivity = [
+      { text:'Priya Sharma submitted a bridal enquiry', time:'Just now · /collections/bridal-sarees', dot:'#0a8f5b' },
+      { text:'Returning visitor opened pricing for the third time', time:'2 min ago · Google Search', dot:'#ed7a2c' },
+      { text:'Chatbot qualified a 200-piece bulk order', time:'7 min ago · Ahmedabad', dot:'#9a3c10' },
+      { text:'New visitor shared a phone number', time:'12 min ago · Instagram', dot:'#2a6fdb' }
+    ];
+    const visitorRows = [
+      { name:'Priya Sharma', meta:'Known lead · +91 •••• 4821', intent:'HOT', intentBg:'#fde1dc', intentColor:'#b9362b', source:'Google', page:'Bridal Sarees → Pricing', depth:'6 pages · 8m 14s', time:'Now', action:'Open lead' },
+      { name:'Rahul Textiles', meta:'Business email captured', intent:'HIGH', intentBg:'#fff0d7', intentColor:'#a35b00', source:'Direct', page:'Bulk Orders → Contact', depth:'4 pages · 5m 02s', time:'2m ago', action:'Contact' },
+      { name:'Visitor #8F21', meta:'Anonymous · Returning', intent:'HIGH', intentBg:'#fff0d7', intentColor:'#a35b00', source:'Instagram', page:'Kanjivaram Sarees', depth:'7 pages · 11m 40s', time:'5m ago', action:'View journey' },
+      { name:'Anita Desai', meta:'Known customer', intent:'MEDIUM', intentBg:'#e8f0fd', intentColor:'#2a6fdb', source:'Email', page:'New Arrivals', depth:'3 pages · 3m 22s', time:'18m ago', action:'Open lead' },
+      { name:'Visitor #19C4', meta:'Anonymous · First visit', intent:'LOW', intentBg:'#f1eee9', intentColor:'#786f68', source:'Google', page:'Silk Care Guide', depth:'1 page · 42s', time:'31m ago', action:'View journey' },
+      { name:'Meera Boutique', meta:'Lead · me•••@gmail.com', intent:'HIGH', intentBg:'#fff0d7', intentColor:'#a35b00', source:'Referral', page:'Wholesale → Pricing', depth:'5 pages · 6m 09s', time:'44m ago', action:'Contact' }
+    ];
+    const websiteVisitors = visitorRows.map(v=>({ ...v, contact:this.contactWebsiteVisitor(v.name) }));
+    const websiteAnalyticsKpis = [
+      { label:'SESSIONS', value:'10,284', delta:'+16.2%' }, { label:'AVG. SESSION', value:'3m 42s', delta:'+18 sec' },
+      { label:'BOUNCE RATE', value:'38.6%', delta:'−4.1%' }, { label:'LEAD RATE', value:'5.8%', delta:'+1.2%' },
+      { label:'CHAT CONVERSION', value:'29.2%', delta:'+3.7%' }
+    ];
+    const websiteChart = [42,56,49,68,58,71,66,79,63,82,76,91,84,96].map((v,i)=>({ visitors:v+'%', leads:Math.max(12,Math.round(v*(.22+(i%4)*.035)))+'%' }));
+    const websiteSources = [
+      { name:'Google Search', value:'42%', bar:'82%', color:'#ed7a2c' }, { name:'Direct', value:'24%', bar:'55%', color:'#9a3c10' },
+      { name:'Instagram', value:'18%', bar:'43%', color:'#d35f78' }, { name:'Referrals', value:'10%', bar:'27%', color:'#2a6fdb' },
+      { name:'Email', value:'6%', bar:'18%', color:'#0a8f5b' }
+    ];
+    const websiteChatToggles = [
+      { key:'webChatLeadCapture', label:'Lead capture form', desc:'Ask for name and contact details after engagement' },
+      { key:'webChatProactive', label:'Proactive greeting', desc:'Open after 20 seconds or a second page view' },
+      { key:'webChatHandoff', label:'Human handoff', desc:'Send qualified or frustrated visitors to your team' },
+      { key:'webChatSound', label:'Message sound', desc:'Play a subtle sound for new chatbot replies' }
+    ].map(t=>({ ...t, track:s[t.key]?'#0a8f5b':'#e6d5c4', knob:s[t.key]?'21px':'3px', toggle:this.toggleWebsiteChat(t.key) }));
+    const websiteCollection = ['Page views & sessions','Traffic source / campaign','Button and link clicks','Chatbot conversations','Form submissions','UTM parameters'];
+    const websiteTracking = [
+      { label:'Page views', status:'RECEIVING' }, { label:'Visitor sessions', status:'RECEIVING' },
+      { label:'Lead events', status:'RECEIVING' }, { label:'Chatbot events', status:'RECEIVING' }
+    ];
+
     return {
       dailyNavItems, manageNavItems, stats, hotLeads, activity, nudges, packs,
+      websiteTabs, websiteKpis, websiteFunnel, websitePages, websiteActivity, websiteVisitors,
+      websiteAnalyticsKpis, websiteChart, websiteSources, websiteChatToggles, websiteCollection, websiteTracking,
       ...this.convVals(), ...this.leadVals(), ...this.tabVals(), ...this.featureVals(), ...this.intelVals(), ...this.wsVals(),
       isOverview: s.tab==='overview',
       // sub-views
@@ -5163,6 +5351,8 @@ class Component extends DCLogic {
       leadPipeline: s.leadView==='pipeline', leadRouting: s.leadView==='routing',
       autoFlows: s.autoView==='flows', autoBuilder: s.autoView==='builder',
       anaOverview: s.anaView==='overview', anaCalls: s.anaView==='calls',
+      webOverview: s.webView==='overview', webVisitors: s.webView==='visitors', webAnalytics: s.webView==='analytics',
+      webChatbot: s.webView==='chatbot', webSetup: s.webView==='setup',
       convTabs: [
         { l:'Inbox', v:'inbox' }, { l:'Playground', v:'playground' }
       ].map(t=>({ ...t, active:s.convView===t.v, bg:s.convView===t.v?'#9a3c10':'#fff', color:s.convView===t.v?'#fff':'#6b6058', border:s.convView===t.v?'none':'1px solid #e6d5c4', go:()=>this.setConvView(t.v) })),
@@ -5193,12 +5383,16 @@ class Component extends DCLogic {
       isConversations: s.tab==='conversations',
       isLeads: s.tab==='leads',
       isOrders: s.tab==='orders',
+      isWebsite: s.tab==='website',
       isProducts: s.tab==='products',
       isAutomation: s.tab==='automation',
       isAnalytics: s.tab==='analytics',
       isSettings: s.tab==='settings' || s.tab==='integrations',
       isWorkspace: s.tab==='workspace',
       openBusinessProfile: () => { this.setState({toast:'Business profile editor opened ✓'}); setTimeout(()=>this.setState({toast:null}),2200); },
+      refreshWebsite:this.refreshWebsite, openWebsite:this.openWebsite, applyWebsiteInsight:this.applyWebsiteInsight,
+      webGreeting:s.webGreeting, onWebGreeting:this.onWebGreeting, saveWebsiteChat:this.saveWebsiteChat,
+      copyWebsiteSnippet:this.copyWebsiteSnippet, emailWebsiteSnippet:this.emailWebsiteSnippet, testWebsiteConnection:this.testWebsiteConnection,
       goLeads: () => this.setTab('leads'),
       goSettings: () => this.setTab('workspace'),
       openTopup: this.openTopup, closeTopup: this.closeTopup, stop: (e)=>e.stopPropagation(),
