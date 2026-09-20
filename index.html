@@ -6,6 +6,7 @@
 <title>SalesBuddy AI</title>
 <meta name="description" content="SalesBuddy AI interactive product prototype">
 <script src="./support.js"></script>
+<link rel="stylesheet" href="./ui-enhancements.css">
 </head>
 <body>
 <template id="__bundler_thumbnail" data-bg-color="#fbf2e8">
@@ -836,7 +837,7 @@
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b9a795" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <input placeholder="Search leads, conversations, orders…" style="border:none;outline:none;background:none;flex:1;font-size:14px;color:#1c1714;" />
       </div>
-      <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;"><span style="background:#dff3e9;color:#0a8f5b;border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:800;">● VOICE LIVE</span><span style="background:#f9e2cd;color:#b4541b;border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:800;">○ WHATSAPP PENDING</span><span style="background:#dff3e9;color:#0a8f5b;border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:800;">● EMAIL LIVE</span></div>
+      <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;"><span style="background:#dff3e9;color:#0a8f5b;border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:800;">● VOICE LIVE</span><span style="background:#dff3e9;color:#0a8f5b;border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:800;">● WHATSAPP LIVE</span><span style="background:#dff3e9;color:#0a8f5b;border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:800;">● EMAIL LIVE</span></div>
       <div style="margin-left:auto;display:flex;align-items:center;gap:18px;">
         <div onClick="{{ toggleNotif }}" style="cursor:pointer;position:relative;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6058" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><sc-if value="{{ notifUnreadAny }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;top:-5px;right:-6px;min-width:16px;height:16px;padding:0 4px;background:#c0392b;color:#fff;font-size:10px;font-weight:800;border-radius:999px;border:2px solid #fbf4ec;display:flex;align-items:center;justify-content:center;">{{ notifUnread }}</span></sc-if></div>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6058" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
@@ -5411,5 +5412,6 @@ class Component extends DCLogic {
   }
 }
 </script>
+<script src="./ui-enhancements.js"></script>
 </body>
 </html>
